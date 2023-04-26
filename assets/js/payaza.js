@@ -1,111 +1,111 @@
 jQuery( function( $ ) {
 
-	let paystack_submit = false;
+	let payaza_submit = false;
 
-	$( '#wc-paystack-form' ).hide();
+	$( '#wc-payaza-form' ).hide();
 
-	wcPaystackFormHandler();
+	wcPayazaFormHandler();
 
-	jQuery( '#paystack-payment-button' ).click( function() {
-		return wcPaystackFormHandler();
+	jQuery( '#payaza-payment-button' ).click( function() {
+		return wcPayazaFormHandler();
 	} );
 
-	jQuery( '#paystack_form form#order_review' ).submit( function() {
-		return wcPaystackFormHandler();
+	jQuery( '#payaza_form form#order_review' ).submit( function() {
+		return wcPayazaFormHandler();
 	} );
 
-	function wcPaystackCustomFields() {
+	function wcPayazaCustomFields() {
 
 		let custom_fields = [
 			{
 				"display_name": "Plugin",
 				"variable_name": "plugin",
-				"value": "woo-paystack"
+				"value": "woo-payaza"
 			}
 		];
 
-		if ( wc_paystack_params.meta_order_id ) {
+		if ( wc_payaza_params.meta_order_id ) {
 
 			custom_fields.push( {
 				display_name: "Order ID",
 				variable_name: "order_id",
-				value: wc_paystack_params.meta_order_id
+				value: wc_payaza_params.meta_order_id
 			} );
 
 		}
 
-		if ( wc_paystack_params.meta_name ) {
+		if ( wc_payaza_params.meta_name ) {
 
 			custom_fields.push( {
 				display_name: "Customer Name",
 				variable_name: "customer_name",
-				value: wc_paystack_params.meta_name
+				value: wc_payaza_params.meta_name
 			} );
 		}
 
-		if ( wc_paystack_params.meta_email ) {
+		if ( wc_payaza_params.meta_email ) {
 
 			custom_fields.push( {
 				display_name: "Customer Email",
 				variable_name: "customer_email",
-				value: wc_paystack_params.meta_email
+				value: wc_payaza_params.meta_email
 			} );
 		}
 
-		if ( wc_paystack_params.meta_phone ) {
+		if ( wc_payaza_params.meta_phone ) {
 
 			custom_fields.push( {
 				display_name: "Customer Phone",
 				variable_name: "customer_phone",
-				value: wc_paystack_params.meta_phone
+				value: wc_payaza_params.meta_phone
 			} );
 		}
 
-		if ( wc_paystack_params.meta_billing_address ) {
+		if ( wc_payaza_params.meta_billing_address ) {
 
 			custom_fields.push( {
 				display_name: "Billing Address",
 				variable_name: "billing_address",
-				value: wc_paystack_params.meta_billing_address
+				value: wc_payaza_params.meta_billing_address
 			} );
 		}
 
-		if ( wc_paystack_params.meta_shipping_address ) {
+		if ( wc_payaza_params.meta_shipping_address ) {
 
 			custom_fields.push( {
 				display_name: "Shipping Address",
 				variable_name: "shipping_address",
-				value: wc_paystack_params.meta_shipping_address
+				value: wc_payaza_params.meta_shipping_address
 			} );
 		}
 
-		if ( wc_paystack_params.meta_products ) {
+		if ( wc_payaza_params.meta_products ) {
 
 			custom_fields.push( {
 				display_name: "Products",
 				variable_name: "products",
-				value: wc_paystack_params.meta_products
+				value: wc_payaza_params.meta_products
 			} );
 		}
 
 		return custom_fields;
 	}
 
-	function wcPaystackCustomFilters() {
+	function wcPayazaCustomFilters() {
 
 		let custom_filters = {};
 
-		if ( wc_paystack_params.card_channel ) {
+		if ( wc_payaza_params.card_channel ) {
 
-			if ( wc_paystack_params.banks_allowed ) {
+			if ( wc_payaza_params.banks_allowed ) {
 
-				custom_filters[ 'banks' ] = wc_paystack_params.banks_allowed;
+				custom_filters[ 'banks' ] = wc_payaza_params.banks_allowed;
 
 			}
 
-			if ( wc_paystack_params.cards_allowed ) {
+			if ( wc_payaza_params.cards_allowed ) {
 
-				custom_filters[ 'card_brands' ] = wc_paystack_params.cards_allowed;
+				custom_filters[ 'card_brands' ] = wc_payaza_params.cards_allowed;
 			}
 
 		}
@@ -117,63 +117,63 @@ jQuery( function( $ ) {
 
 		let payment_channels = [];
 
-		if ( wc_paystack_params.bank_channel ) {
+		if ( wc_payaza_params.bank_channel ) {
 			payment_channels.push( 'bank' );
 		}
 
-		if ( wc_paystack_params.card_channel ) {
+		if ( wc_payaza_params.card_channel ) {
 			payment_channels.push( 'card' );
 		}
 
-		if ( wc_paystack_params.ussd_channel ) {
+		if ( wc_payaza_params.ussd_channel ) {
 			payment_channels.push( 'ussd' );
 		}
 
-		if ( wc_paystack_params.qr_channel ) {
+		if ( wc_payaza_params.qr_channel ) {
 			payment_channels.push( 'qr' );
 		}
 
-		if ( wc_paystack_params.bank_transfer_channel ) {
+		if ( wc_payaza_params.bank_transfer_channel ) {
 			payment_channels.push( 'bank_transfer' );
 		}
 
 		return payment_channels;
 	}
 
-	function wcPaystackFormHandler() {
+	function wcPayazaFormHandler() {
 
-		$( '#wc-paystack-form' ).hide();
+		$( '#wc-payaza-form' ).hide();
 
-		if ( paystack_submit ) {
-			paystack_submit = false;
+		if ( payaza_submit ) {
+			payaza_submit = false;
 			return true;
 		}
 
 		let $form = $( 'form#payment-form, form#order_review' ),
-			paystack_txnref = $form.find( 'input.paystack_txnref' ),
+			payaza_txnref = $form.find( 'input.payaza_txnref' ),
 			subaccount_code = '',
 			charges_account = '',
 			transaction_charges = '';
 
-		paystack_txnref.val( '' );
+		payaza_txnref.val( '' );
 
-		if ( wc_paystack_params.subaccount_code ) {
-			subaccount_code = wc_paystack_params.subaccount_code;
+		if ( wc_payaza_params.subaccount_code ) {
+			subaccount_code = wc_payaza_params.subaccount_code;
 		}
 
-		if ( wc_paystack_params.charges_account ) {
-			charges_account = wc_paystack_params.charges_account;
+		if ( wc_payaza_params.charges_account ) {
+			charges_account = wc_payaza_params.charges_account;
 		}
 
-		if ( wc_paystack_params.transaction_charges ) {
-			transaction_charges = Number( wc_paystack_params.transaction_charges );
+		if ( wc_payaza_params.transaction_charges ) {
+			transaction_charges = Number( wc_payaza_params.transaction_charges );
 		}
 
-		let amount = Number( wc_paystack_params.amount );
+		let amount = Number( wc_payaza_params.amount );
 
-		let paystack_callback = function( response ) {
-			$form.append( '<input type="hidden" class="paystack_txnref" name="paystack_txnref" value="' + response.trxref + '"/>' );
-			paystack_submit = true;
+		let payaza_callback = function( response ) {
+			$form.append( '<input type="hidden" class="payaza_txnref" name="payaza_txnref" value="' + response.trxref + '"/>' );
+			payaza_submit = true;
 
 			$form.submit();
 
@@ -190,32 +190,32 @@ jQuery( function( $ ) {
 		};
 
 		let paymentData = {
-			key: wc_paystack_params.key,
-			email: wc_paystack_params.email,
+			key: wc_payaza_params.key,
+			email: wc_payaza_params.email,
 			amount: amount,
-			ref: wc_paystack_params.txnref,
-			currency: wc_paystack_params.currency,
-			callback: paystack_callback,
+			ref: wc_payaza_params.txnref,
+			currency: wc_payaza_params.currency,
+			callback: payaza_callback,
 			subaccount: subaccount_code,
 			bearer: charges_account,
 			transaction_charge: transaction_charges,
 			metadata: {
-				custom_fields: wcPaystackCustomFields(),
+				custom_fields: wcPayazaCustomFields(),
 			},
 			onClose: function() {
-				$( '#wc-paystack-form' ).show();
+				$( '#wc-payaza-form' ).show();
 				$( this.el ).unblock();
 			}
 		};
 
 		if ( Array.isArray( wcPaymentChannels() ) && wcPaymentChannels().length ) {
 			paymentData[ 'channels' ] = wcPaymentChannels();
-			if ( !$.isEmptyObject( wcPaystackCustomFilters() ) ) {
-				paymentData[ 'metadata' ][ 'custom_filters' ] = wcPaystackCustomFilters();
+			if ( !$.isEmptyObject( wcPayazaCustomFilters() ) ) {
+				paymentData[ 'metadata' ][ 'custom_filters' ] = wcPayazaCustomFilters();
 			}
 		}
 
-		let handler = PaystackPop.setup( paymentData );
+		let handler = PayazaPop.setup( paymentData );
 
 		handler.openIframe();
 
