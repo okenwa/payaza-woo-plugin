@@ -1,16 +1,11 @@
 <?php
 /**
- * Plugin Name: payaza WooCommerce Payment Gateway
- * Plugin URI: https://payaza.com
+ * Plugin Name: payaza WooCommerce Plugin
+ * Plugin URI: https://payaza.africa
  * Description: WooCommerce payment gateway for payaza
  * Version: 1.0.0
  * Author: Okenwa Ikwan kevin
  * Author URI: https://github.com/okenwa
- * License: GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * WC requires at least: 6.1
- * WC tested up to: 6.9
- * Text Domain: woo-payaza
 
  */
 
@@ -21,10 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_payaza_MAIN_FILE', __FILE__ );
 define( 'WC_payaza_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_payaza_VERSION', '5.7.4' );
+define( 'WC_payaza_VERSION', '1.0.0' );
 
 /**
- * Initialize payaza WooCommerce payment gateway.
+ * Initialize payaza gateway.
  */
 function tbz_wc_payaza_init() {
 
@@ -44,10 +39,7 @@ function tbz_wc_payaza_init() {
 	require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-custom-payaza.php';
 
 	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-one.php';
-	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-two.php';
-	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-three.php';
-	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-four.php';
-	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-five.php';
+
 
 	add_filter( 'woocommerce_payment_gateways', 'tbz_wc_add_payaza_gateway', 99 );
 
@@ -93,40 +85,7 @@ function tbz_wc_add_payaza_gateway( $methods ) {
 		$settings        = get_option( 'woocommerce_payaza_settings', '' );
 		$custom_gateways = isset( $settings['custom_gateways'] ) ? $settings['custom_gateways'] : '';
 
-		switch ( $custom_gateways ) {
-			case '5':
-				$methods[] = 'WC_Gateway_payaza_One';
-				$methods[] = 'WC_Gateway_payaza_Two';
-				$methods[] = 'WC_Gateway_payaza_Three';
-				$methods[] = 'WC_Gateway_payaza_Four';
-				$methods[] = 'WC_Gateway_payaza_Five';
-				break;
-
-			case '4':
-				$methods[] = 'WC_Gateway_payaza_One';
-				$methods[] = 'WC_Gateway_payaza_Two';
-				$methods[] = 'WC_Gateway_payaza_Three';
-				$methods[] = 'WC_Gateway_payaza_Four';
-				break;
-
-			case '3':
-				$methods[] = 'WC_Gateway_payaza_One';
-				$methods[] = 'WC_Gateway_payaza_Two';
-				$methods[] = 'WC_Gateway_payaza_Three';
-				break;
-
-			case '2':
-				$methods[] = 'WC_Gateway_payaza_One';
-				$methods[] = 'WC_Gateway_payaza_Two';
-				break;
-
-			case '1':
-				$methods[] = 'WC_Gateway_payaza_One';
-				break;
-
-			default:
-				break;
-		}
+		$methods[] = 'WC_Gateway_payaza_One';
 	}
 
 	return $methods;
