@@ -259,9 +259,10 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 			?>
 		</h4>
 
-		<p style="color: red">
-			<code><?php echo esc_url( WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></code>
-		</p>
+		<!--p style="color: red">
+			<code>
+				// echo esc_url( WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></code>
+		</p-->
 
 		<p>
 			<?php
@@ -295,8 +296,6 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 		return array(
 			'card'          => __( 'Cards', 'woo-payaza' ),
 			'bank'          => __( 'Pay with Bank', 'woo-payaza' ),
-			'ussd'          => __( 'USSD', 'woo-payaza' ),
-			'qr'            => __( 'QR', 'woo-payaza' ),
 			'bank_transfer' => __( 'Bank Transfer', 'woo-payaza' ),
 		);
 
@@ -332,21 +331,37 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 			'070'  => __( 'Fidelity Bank', 'woo-payaza' ),
 			'011'  => __( 'First Bank of Nigeria', 'woo-payaza' ),
 			'214'  => __( 'First City Monument Bank', 'woo-payaza' ),
+			'501'  => __( 'FSDH', 'woo-payaza' ),
+			'00103'  => __( 'Globus Bank', 'woo-payaza' ),
 			'058'  => __( 'Guaranty Trust Bank', 'woo-payaza' ),
+			'51251'  => __( 'Hackman Microfinance Bank', 'woo-payaza' ),
+			'50383'  => __( 'Hasal Microfinance Bank', 'woo-payaza' ),
 			'030'  => __( 'Heritage Bank', 'woo-payaza' ),
+			'100'  => __( 'Ibile Microfinance Bank', 'woo-payaza' ),
+			'50457'  => __( 'Infinity Microfinance Bank', 'woo-payaza' ),
 			'301'  => __( 'Jaiz Bank', 'woo-payaza' ),
 			'082'  => __( 'Keystone Bank', 'woo-payaza' ),
-			'014'  => __( 'MainStreet Bank', 'woo-payaza' ),
-			'526'  => __( 'Parallex Bank', 'woo-payaza' ),
+			'50211'  => __( 'Kuda Microfinance', 'woo-payaza' ),
+			'999992'  => __( 'Opay', 'woo-payaza' ),
+			'999991'  => __( 'Palmpay', 'woo-payaza' ),
+			'311'  => __( 'Parkway-Readycash', 'woo-payaza' ),
+			'50746'  => __( 'Petra Microfinance Bank', 'woo-payaza' ),
 			'076'  => __( 'Polaris Bank Limited', 'woo-payaza' ),
-			'101'  => __( 'Providus Bank', 'woo-payaza' ),
+		    '101'  => __( 'Providus Bank', 'woo-payaza' ),
+			'502'  => __( 'Rand Merchant Bank', 'woo-payaza' ),
+			'125'  => __( 'Rubies Microfinance Bank', 'woo-payaza' ),
+			'51310'  => __( 'Sparkle', 'woo-payaza' ),
 			'221'  => __( 'Stanbic IBTC Bank', 'woo-payaza' ),
 			'068'  => __( 'Standard Chartered Bank', 'woo-payaza' ),
 			'232'  => __( 'Sterling Bank', 'woo-payaza' ),
 			'100'  => __( 'Suntrust Bank', 'woo-payaza' ),
+			'302'  => __( 'TAJ Bank', 'woo-payaza' ),
+			'51211'  => __( 'TCF Microfinance Bank', 'woo-payaza' ),
+			'102'  => __( 'Titan Trust Bank', 'woo-payaza' ),
 			'032'  => __( 'Union Bank of Nigeria', 'woo-payaza' ),
 			'033'  => __( 'United Bank For Africa', 'woo-payaza' ),
 			'215'  => __( 'Unity Bank', 'woo-payaza' ),
+			'566'  => __( 'VFD MFB', 'woo-payaza' ),
 			'035'  => __( 'Wema Bank', 'woo-payaza' ),
 			'057'  => __( 'Zenith Bank', 'woo-payaza' ),
 		);
@@ -362,12 +377,7 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 			'verve'         => __( 'Verve', 'woo-payaza' ),
 			'visa'          => __( 'Visa', 'woo-payaza' ),
 			'mastercard'    => __( 'Mastercard', 'woo-payaza' ),
-			'Payazawhite' => __( 'Secured by Payaza White', 'woo-payaza' ),
-			'Payazablue'  => __( 'Secured by Payaza Blue', 'woo-payaza' ),
-			'payaza-wc'   => __( 'Payaza Nigeria', 'woo-payaza' ),
-			'payaza-gh'   => __( 'Payaza Ghana', 'woo-payaza' ),
 			'access'        => __( 'Access Bank', 'woo-payaza' ),
-			'alat'          => __( 'ALAT by WEMA', 'woo-payaza' ),
 			'aso'           => __( 'ASO Savings and Loans', 'woo-payaza' ),
 			'citibank'      => __( 'Citibank Nigeria', 'woo-payaza' ),
 			'diamond'       => __( 'Access Bank (Diamond)', 'woo-payaza' ),

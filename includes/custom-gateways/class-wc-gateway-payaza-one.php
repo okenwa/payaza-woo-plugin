@@ -1,6 +1,6 @@
 <?php
 
-class WC_Gateway_Paystack_One extends WC_Gateway_Custom_Paystack {
+class WC_Gateway_Payaza_One extends WC_Gateway_Custom_Payaza {
 
 	/**
 	 * Payment channels.
@@ -31,27 +31,27 @@ class WC_Gateway_Paystack_One extends WC_Gateway_Custom_Paystack {
 	public $payment_icons;
 
 	/**
-	 * Paystack settings.
+	 * Payaza settings.
 	 *
 	 * @var array
 	 */
-	public $paystack_settings;
+	public $payaza_settings;
 
 	/**
-	 * WC_Gateway_Paystack_One constructor.
+	 * WC_Gateway_Payaza_One constructor.
 	 */
 	public function __construct() {
 
-		$this->id = 'paystack-one';
+		$this->id = 'payaza-one';
 
 		$gateway_title = $this->get_option( 'title' );
 
 		if ( empty( $gateway_title ) ) {
-			$gateway_title = __( 'One', 'woo-paystack' );
+			$gateway_title = __( 'One', 'woo-payaza' );
 		}
 
-		$this->method_title       = sprintf( __( 'Paystack - %s', 'woo-paystack' ), $gateway_title );
-		$this->method_description = sprintf( __( 'Paystack provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Paystack account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-paystack' ), 'https://paystack.com', 'https://dashboard.paystack.com/#/settings/developer' );
+		$this->method_title       = sprintf( __( 'Payaza - %s', 'woo-payaza' ), $gateway_title );
+		$this->method_description = sprintf( __( 'Payaza provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Payaza account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-payaza' ), 'https://payaza.com', 'https://dashboard.payaza.com/#/settings/developer' );
 
 		$this->payment_page = $this->get_option( 'payment_page' );
 
@@ -71,27 +71,27 @@ class WC_Gateway_Paystack_One extends WC_Gateway_Custom_Paystack {
 			'subscription_payment_method_change_customer',
 		);
 
-		$this->paystack_settings = get_option( 'woocommerce_paystack_settings', '' );
+		$this->payaza_settings = get_option( 'woocommerce_payaza_settings', '' );
 
 		// Get setting values.
 		$this->title       = $gateway_title;
 		$this->description = $this->get_option( 'description' );
 		$this->enabled     = $this->get_option( 'enabled' );
 
-		$this->testmode = $this->paystack_settings['testmode'] === 'yes' ? true : false;
+		$this->testmode = $this->payaza_settings['testmode'] === 'yes' ? true : false;
 
 		$this->payment_channels = $this->get_option( 'payment_channels' );
 
 		$this->cards = $this->get_option( 'cards_allowed' );
 		$this->banks = $this->get_option( 'banks_allowed' );
 
-		$this->test_public_key = $this->paystack_settings['test_public_key'];
-		$this->test_secret_key = $this->paystack_settings['test_secret_key'];
+		$this->test_public_key = $this->payaza_settings['test_public_key'];
+		$this->test_secret_key = $this->payaza_settings['test_secret_key'];
 
-		$this->live_public_key = $this->paystack_settings['live_public_key'];
-		$this->live_secret_key = $this->paystack_settings['live_secret_key'];
+		$this->live_public_key = $this->payaza_settings['live_public_key'];
+		$this->live_secret_key = $this->payaza_settings['live_secret_key'];
 
-		$this->saved_cards = $this->paystack_settings['saved_cards'] === 'yes' ? true : false;
+		$this->saved_cards = $this->payaza_settings['saved_cards'] === 'yes' ? true : false;
 
 		$this->split_payment              = $this->get_option( 'split_payment' ) === 'yes' ? true : false;
 		$this->remove_cancel_order_button = $this->get_option( 'remove_cancel_order_button' ) === 'yes' ? true : false;

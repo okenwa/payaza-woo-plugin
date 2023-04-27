@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WC_Gateway_Paystack_Subscriptions
+ * Class WC_Gateway_Payaza_Subscriptions
  */
-class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
+class WC_Gateway_Payaza_Subscriptions extends WC_Gateway_Payaza {
 
 	/**
 	 * Constructor
@@ -52,7 +52,7 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 
 			$order->payment_complete();
 
-			$order->add_order_note( __( 'This subscription has a free trial, reason for the 0 amount', 'woo-paystack' ) );
+			$order->add_order_note( __( 'This subscription has a free trial, reason for the 0 amount', 'woo-payaza' ) );
 
 			return array(
 				'result'   => 'success',
@@ -79,7 +79,7 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 
 		if ( is_wp_error( $response ) ) {
 
-			$renewal_order->update_status( 'failed', sprintf( __( 'Paystack Transaction Failed (%s)', 'woo-paystack' ), $response->get_error_message() ) );
+			$renewal_order->update_status( 'failed', sprintf( __( 'Payaza Transaction Failed (%s)', 'woo-payaza' ), $response->get_error_message() ) );
 
 		}
 
@@ -97,13 +97,13 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 
 		$order_id = $order->get_id();
 
-		$auth_code = get_post_meta( $order_id, '_paystack_token', true );
+		$auth_code = get_post_meta( $order_id, '_payaza_token', true );
 
 		if ( $auth_code ) {
 
 			$order_amount = $amount * 100;
 
-			$paystack_url = 'https://api.paystack.co/transaction/charge_authorization';
+			$payaza_url = 'https://api.payaza.co/transaction/charge_authorization';
 
 			$headers = array(
 				'Content-Type'  => 'application/json',
@@ -125,19 +125,19 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 				'timeout' => 60,
 			);
 
-			$request = wp_remote_post( $paystack_url, $args );
+			$request = wp_remote_post( $payaza_url, $args );
 
 			if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
 
-				$paystack_response = json_decode( wp_remote_retrieve_body( $request ) );
+				$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
 
-				if ( 'success' == $paystack_response->data->status ) {
+				if ( 'success' == $payaza_response->data->status ) {
 
-					$paystack_ref = $paystack_response->data->reference;
+					$payaza_ref = $payaza_response->data->reference;
 
-					$order->payment_complete( $paystack_ref );
+					$order->payment_complete( $payaza_ref );
 
-					$message = sprintf( __( 'Payment via Paystack successful (Transaction Reference: %s)', 'woo-paystack' ), $paystack_ref );
+					$message = sprintf( __( 'Payment via Payaza successful (Transaction Reference: %s)', 'woo-payaza' ), $payaza_ref );
 
 					$order->add_order_note( $message );
 
@@ -149,19 +149,19 @@ class WC_Gateway_Paystack_Subscriptions extends WC_Gateway_Paystack {
 
 				} else {
 
-					$gateway_response = __( 'Paystack payment failed.', 'woo-paystack' );
+					$gateway_response = __( 'Payaza payment failed.', 'woo-payaza' );
 
-					if ( isset( $paystack_response->data->gateway_response ) && ! empty( $paystack_response->data->gateway_response ) ) {
-						$gateway_response = sprintf( __( 'Paystack payment failed. Reason: %s', 'woo-paystack' ), $paystack_response->data->gateway_response );
+					if ( isset( $payaza_response->data->gateway_response ) && ! empty( $payaza_response->data->gateway_response ) ) {
+						$gateway_response = sprintf( __( 'Payaza payment failed. Reason: %s', 'woo-payaza' ), $payaza_response->data->gateway_response );
 					}
 
-					return new WP_Error( 'paystack_error', $gateway_response );
+					return new WP_Error( 'payaza_error', $gateway_response );
 
 				}
 			}
 		}
 
-		return new WP_Error( 'paystack_error', __( 'This subscription can&#39;t be renewed automatically. The customer will have to login to their account to renew their subscription', 'woo-paystack' ) );
+		return new WP_Error( 'payaza_error', __( 'This subscription can&#39;t be renewed automatically. The customer will have to login to their account to renew their subscription', 'woo-payaza' ) );
 
 	}
 

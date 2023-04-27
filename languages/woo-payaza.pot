@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Paystack WooCommerce Payment Gateway\n"
+"Project-Id-Version: Payaza WooCommerce Payment Gateway\n"
 "POT-Creation-Date: 2022-10-04 17:27+0100\n"
 "PO-Revision-Date: 2022-10-04 17:27+0100\n"
 "Last-Translator: \n"
@@ -29,7 +29,7 @@ msgstr ""
 #. translators: payment method title
 #: includes/class-wc-gateway-custom-payaza.php:17
 #, php-format
-msgid "Enable Paystack - %s"
+msgid "Enable Payaza - %s"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:19
@@ -50,7 +50,7 @@ msgstr ""
 #: includes/class-wc-gateway-custom-payaza.php:28
 #: includes/class-wc-gateway-payaza.php:182
 #: includes/class-wc-gateway-payaza.php:357
-msgid "Paystack"
+msgid "Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:31
@@ -74,7 +74,7 @@ msgstr ""
 #: includes/class-wc-gateway-payaza.php:425
 msgid ""
 "Popup shows the payment popup on the page while Redirect will redirect the "
-"customer to Paystack to make payment."
+"customer to Payaza to make payment."
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:44
@@ -142,7 +142,7 @@ msgid "Enter the subaccount code here."
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:78
-msgid "woocommerce_paystack_subaccount_code"
+msgid "woocommerce_payaza_subaccount_code"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:82
@@ -162,12 +162,12 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:94
 #: includes/class-wc-gateway-payaza.php:503
-msgid "Paystack Charges Bearer"
+msgid "Payaza Charges Bearer"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:96
 #: includes/class-wc-gateway-payaza.php:505
-msgid "Who bears Paystack charges?"
+msgid "Who bears Payaza charges?"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:102
@@ -246,7 +246,7 @@ msgstr ""
 #: includes/class-wc-gateway-payaza.php:543
 msgid ""
 "If enabled, you will be able to send more information about the order to "
-"Paystack."
+"Payaza."
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:168
@@ -261,7 +261,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:172
 #: includes/class-wc-gateway-payaza.php:552
-msgid "If checked, the Order ID will be sent to Paystack"
+msgid "If checked, the Order ID will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:177
@@ -276,7 +276,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:181
 #: includes/class-wc-gateway-payaza.php:561
-msgid "If checked, the customer full name will be sent to Paystack"
+msgid "If checked, the customer full name will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:186
@@ -291,7 +291,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:190
 #: includes/class-wc-gateway-payaza.php:570
-msgid "If checked, the customer email address will be sent to Paystack"
+msgid "If checked, the customer email address will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:195
@@ -306,7 +306,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:199
 #: includes/class-wc-gateway-payaza.php:579
-msgid "If checked, the customer phone will be sent to Paystack"
+msgid "If checked, the customer phone will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:204
@@ -321,7 +321,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:208
 #: includes/class-wc-gateway-payaza.php:588
-msgid "If checked, the order billing address will be sent to Paystack"
+msgid "If checked, the order billing address will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:213
@@ -336,7 +336,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:217
 #: includes/class-wc-gateway-payaza.php:597
-msgid "If checked, the order shipping address will be sent to Paystack"
+msgid "If checked, the order shipping address will be sent to Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:222
@@ -351,7 +351,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:226
 #: includes/class-wc-gateway-payaza.php:606
-msgid "If checked, the product(s) purchased will be sent to Paystack"
+msgid "If checked, the product(s) purchased will be sent to Payaza"
 msgstr ""
 
 #. translators: payment method title
@@ -362,7 +362,7 @@ msgstr ""
 #: includes/custom-gateways/class-wc-gateway-payaza-three.php:53
 #: includes/custom-gateways/class-wc-gateway-payaza-two.php:53
 #, php-format
-msgid "Paystack - %s"
+msgid "Payaza - %s"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:250
@@ -370,7 +370,7 @@ msgstr ""
 msgid "Return to payments"
 msgstr ""
 
-#. translators: link to Paystack developers settings page
+#. translators: link to Payaza developers settings page
 #: includes/class-wc-gateway-custom-payaza.php:258
 #, php-format
 msgid ""
@@ -379,18 +379,18 @@ msgid ""
 "rel=\"noopener noreferrer\">here</a> to the URL below"
 msgstr ""
 
-#. translators: link to Paystack general settings page
+#. translators: link to Payaza general settings page
 #: includes/class-wc-gateway-custom-payaza.php:269
 #, php-format
 msgid ""
-"To configure your Paystack API keys and enable/disable test mode, do that <a "
+"To configure your Payaza API keys and enable/disable test mode, do that <a "
 "href=\"%s\">here</a>"
 msgstr ""
 
 #. translators: disabled message
 #: includes/class-wc-gateway-custom-payaza.php:284
 #, php-format
-msgid "Paystack Payment Gateway Disabled: %s"
+msgid "Payaza Payment Gateway Disabled: %s"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:296
@@ -569,19 +569,19 @@ msgid "Zenith Bank"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:365
-msgid "Secured by Paystack White"
+msgid "Secured by Payaza White"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:366
-msgid "Secured by Paystack Blue"
+msgid "Secured by Payaza Blue"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:367
-msgid "Paystack Nigeria"
+msgid "Payaza Nigeria"
 msgstr ""
 
 #: includes/class-wc-gateway-custom-payaza.php:368
-msgid "Paystack Ghana"
+msgid "Payaza Ghana"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:55
@@ -590,23 +590,23 @@ msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:82
 #, php-format
-msgid "Paystack Transaction Failed (%s)"
+msgid "Payaza Transaction Failed (%s)"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:140
 #: includes/class-wc-gateway-payaza.php:1226
 #: includes/class-wc-gateway-payaza.php:1365
 #, php-format
-msgid "Payment via Paystack successful (Transaction Reference: %s)"
+msgid "Payment via Payaza successful (Transaction Reference: %s)"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:152
-msgid "Paystack payment failed."
+msgid "Payaza payment failed."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:155
 #, php-format
-msgid "Paystack payment failed. Reason: %s"
+msgid "Payaza payment failed. Reason: %s"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza-subscriptions.php:164
@@ -623,17 +623,17 @@ msgstr ""
 #: includes/custom-gateways/class-wc-gateway-payaza-two.php:54
 #, php-format
 msgid ""
-"Paystack provide merchants with the tools and services needed to accept "
+"Payaza provide merchants with the tools and services needed to accept "
 "online payments from local and international customers using Mastercard, "
 "Visa, Verve Cards and Bank Accounts. <a href=\"%1$s\" target=\"_blank\">Sign "
-"up</a> for a Paystack account, and <a href=\"%2$s\" target=\"_blank\">get "
+"up</a> for a Payaza account, and <a href=\"%2$s\" target=\"_blank\">get "
 "your API keys</a>."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:279
 #, php-format
 msgid ""
-"Paystack does not support your store currency. Kindly set it to either NGN "
+"Payaza does not support your store currency. Kindly set it to either NGN "
 "(&#8358), GHS (&#x20b5;), USD (&#36;), KES (KSh), ZAR (R), or XOF (CFA) <a "
 "href=\"%s\">here</a>"
 msgstr ""
@@ -641,8 +641,8 @@ msgstr ""
 #: includes/class-wc-gateway-payaza.php:321
 #, php-format
 msgid ""
-"Please enter your Paystack merchant details <a href=\"%s\">here</a> to be "
-"able to use the Paystack WooCommerce plugin."
+"Please enter your Payaza merchant details <a href=\"%s\">here</a> to be "
+"able to use the Payaza WooCommerce plugin."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:366
@@ -655,15 +655,15 @@ msgid ""
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:379
-msgid "Paystack Payment Gateway Disabled"
+msgid "Payaza Payment Gateway Disabled"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:394
-msgid "Enable Paystack"
+msgid "Enable Payaza"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:396
-msgid "Enable Paystack as a payment option on the checkout page."
+msgid "Enable Payaza as a payment option on the checkout page."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:404
@@ -685,7 +685,7 @@ msgstr ""
 #: includes/class-wc-gateway-payaza.php:418
 msgid ""
 "Test mode enables you to test payments before going live. <br />Once the "
-"LIVE MODE is enabled on your Paystack account uncheck this."
+"LIVE MODE is enabled on your Payaza account uncheck this."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:435
@@ -721,17 +721,17 @@ msgid "Enter your Live Public Key here."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:494
-msgid "woocommerce_paystack_split_payment_transaction_charge"
+msgid "woocommerce_payaza_split_payment_transaction_charge"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:516
-msgid "Additional Paystack Gateways"
+msgid "Additional Payaza Gateways"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:518
 msgid ""
-"Create additional custom Paystack based gateways. This allows you to create "
-"additional Paystack gateways using custom filters. You can create a gateway "
+"Create additional custom Payaza based gateways. This allows you to create "
+"additional Payaza gateways using custom filters. You can create a gateway "
 "that accepts only verve cards, a gateway that accepts only bank payment, a "
 "gateway that accepts a specific bank issued cards."
 msgstr ""
@@ -767,7 +767,7 @@ msgstr ""
 #: includes/class-wc-gateway-payaza.php:534
 msgid ""
 "If enabled, users will be able to pay with a saved card during checkout. "
-"Card details are saved on Paystack servers, not on your store.<br>Note that "
+"Card details are saved on Payaza servers, not on your store.<br>Note that "
 "you need to have a valid SSL certificate installed."
 msgstr ""
 
@@ -794,7 +794,7 @@ msgid ""
 "<strong>Look into this order</strong>%1$sThis order is currently on hold."
 "%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid "
 "was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>"
-"%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s"
+"%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1033
@@ -816,13 +816,13 @@ msgid ""
 "<strong>Look into this order</strong>%1$sThis order is currently on hold."
 "%2$sReason: Order currency is different from the payment currency.%3$sOrder "
 "Currency is <strong>%4$s (%5$s)</strong> while the payment currency is "
-"<strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</"
+"<strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</"
 "strong> %9$s"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1064
 #: includes/class-wc-gateway-payaza.php:1246
-msgid "Payment was declined by Paystack."
+msgid "Payment was declined by Payaza."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1065
@@ -831,7 +831,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1069
 #, php-format
-msgid "Payment was declined by Paystack. Reason: %s."
+msgid "Payment was declined by Payaza. Reason: %s."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1070
@@ -851,7 +851,7 @@ msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1112
 msgid ""
-"Thank you for your order, please click the button below to pay with Paystack."
+"Thank you for your order, please click the button below to pay with Payaza."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:1114
@@ -897,7 +897,7 @@ msgid "Two"
 msgstr ""
 
 #: woo-payaza.php:69
-msgid "View Paystack WooCommerce Settings"
+msgid "View Payaza WooCommerce Settings"
 msgstr ""
 
 #: woo-payaza.php:69
@@ -907,21 +907,21 @@ msgstr ""
 #: woo-payaza.php:140
 #, php-format
 msgid ""
-"Paystack requires WooCommerce to be installed and active. Click %s to "
+"Payaza requires WooCommerce to be installed and active. Click %s to "
 "install WooCommerce."
 msgstr ""
 
-#. translators: 1. Paystack settings page URL link.
+#. translators: 1. Payaza settings page URL link.
 #: woo-payaza.php:157
 #, php-format
 msgid ""
-"Paystack test mode is still enabled, Click <strong><a href=\"%s\">here</a></"
+"Payaza test mode is still enabled, Click <strong><a href=\"%s\">here</a></"
 "strong> to disable it when you want to start accepting live payment on your "
 "site."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "Paystack WooCommerce Payment Gateway"
+msgid "Payaza WooCommerce Payment Gateway"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -929,7 +929,7 @@ msgid "https://payaza.com"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "WooCommerce payment gateway for Paystack"
+msgid "WooCommerce payment gateway for Payaza"
 msgstr ""
 
 #. Author of the plugin/theme

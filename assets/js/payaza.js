@@ -125,14 +125,6 @@ jQuery( function( $ ) {
 			payment_channels.push( 'card' );
 		}
 
-		if ( wc_payaza_params.ussd_channel ) {
-			payment_channels.push( 'ussd' );
-		}
-
-		if ( wc_payaza_params.qr_channel ) {
-			payment_channels.push( 'qr' );
-		}
-
 		if ( wc_payaza_params.bank_transfer_channel ) {
 			payment_channels.push( 'bank_transfer' );
 		}

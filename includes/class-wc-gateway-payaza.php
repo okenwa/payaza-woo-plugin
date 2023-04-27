@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
+class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 	/**
 	 * Is test mode active?
@@ -21,35 +21,35 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $autocomplete_order;
 
 	/**
-	 * Paystack payment page type.
+	 * Payaza payment page type.
 	 *
 	 * @var string
 	 */
 	public $payment_page;
 
 	/**
-	 * Paystack test public key.
+	 * Payaza test public key.
 	 *
 	 * @var string
 	 */
 	public $test_public_key;
 
 	/**
-	 * Paystack test secret key.
+	 * Payaza test secret key.
 	 *
 	 * @var string
 	 */
 	public $test_secret_key;
 
 	/**
-	 * Paystack live public key.
+	 * Payaza live public key.
 	 *
 	 * @var string
 	 */
 	public $live_public_key;
 
 	/**
-	 * Paystack live secret key.
+	 * Payaza live secret key.
 	 *
 	 * @var string
 	 */
@@ -63,7 +63,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $saved_cards;
 
 	/**
-	 * Should Paystack split payment be enabled.
+	 * Should Payaza split payment be enabled.
 	 *
 	 * @var bool
 	 */
@@ -77,14 +77,14 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $remove_cancel_order_button;
 
 	/**
-	 * Paystack sub account code.
+	 * Payaza sub account code.
 	 *
 	 * @var string
 	 */
 	public $subaccount_code;
 
 	/**
-	 * Who bears Paystack charges?
+	 * Who bears Payaza charges?
 	 *
 	 * @var string
 	 */
@@ -105,49 +105,49 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	public $custom_metadata;
 
 	/**
-	 * Should the order id be sent as a custom metadata to Paystack?
+	 * Should the order id be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_order_id;
 
 	/**
-	 * Should the customer name be sent as a custom metadata to Paystack?
+	 * Should the customer name be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_name;
 
 	/**
-	 * Should the billing email be sent as a custom metadata to Paystack?
+	 * Should the billing email be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_email;
 
 	/**
-	 * Should the billing phone be sent as a custom metadata to Paystack?
+	 * Should the billing phone be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_phone;
 
 	/**
-	 * Should the billing address be sent as a custom metadata to Paystack?
+	 * Should the billing address be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_billing_address;
 
 	/**
-	 * Should the shipping address be sent as a custom metadata to Paystack?
+	 * Should the shipping address be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
 	public $meta_shipping_address;
 
 	/**
-	 * Should the order items be sent as a custom metadata to Paystack?
+	 * Should the order items be sent as a custom metadata to Payaza?
 	 *
 	 * @var bool
 	 */
@@ -178,9 +178,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->id                 = 'paystack';
-		$this->method_title       = __( 'Paystack', 'woo-paystack' );
-		$this->method_description = sprintf( __( 'Paystack provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Paystack account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-paystack' ), 'https://paystack.com', 'https://dashboard.paystack.com/#/settings/developer' );
+		$this->id                 = 'payaza';
+		$this->method_title       = __( 'Payaza', 'woo-payaza' );
+		$this->method_description = sprintf( __( 'Payaza provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Payaza account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-payaza' ), 'https://payaza.com', 'https://dashboard.payaza.com/#/settings/developer' );
 		$this->has_fields         = true;
 
 		$this->payment_page = $this->get_option( 'payment_page' );
@@ -257,10 +257,10 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
 
 		// Payment listener/API hook.
-		add_action( 'woocommerce_api_wc_gateway_paystack', array( $this, 'verify_paystack_transaction' ) );
+		add_action( 'woocommerce_api_wc_gateway_payaza', array( $this, 'verify_payaza_transaction' ) );
 
 		// Webhook listener/API hook.
-		add_action( 'woocommerce_api_tbz_wc_paystack_webhook', array( $this, 'process_webhooks' ) );
+		add_action( 'woocommerce_api_tbz_wc_payaza_webhook', array( $this, 'process_webhooks' ) );
 
 		// Check if the gateway can be used.
 		if ( ! $this->is_valid_for_use() ) {
@@ -274,9 +274,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 */
 	public function is_valid_for_use() {
 
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_paystack_supported_currencies', array( 'NGN', 'USD', 'ZAR', 'GHS', 'KES', 'XOF' ) ) ) ) {
+		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_payaza_supported_currencies', array( 'NGN', 'USD' ) ) ) ) {
 
-			$this->msg = sprintf( __( 'Paystack does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), KES (KSh), ZAR (R), or XOF (CFA) <a href="%s">here</a>', 'woo-paystack' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
+			$this->msg = sprintf( __( 'Payaza does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), KES (KSh), ZAR (R), or XOF (CFA) <a href="%s">here</a>', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
 
 			return false;
 
@@ -287,28 +287,28 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Display paystack payment icon.
+	 * Display payaza payment icon.
 	 */
-	public function get_icon() {
+	//public function get_icon() {
 
-		$base_location = wc_get_base_location();
+	//	$base_location = wc_get_base_location();
 
-		if ( 'GH' === $base_location['country'] ) {
-			$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/paystack-gh.png', WC_PAYSTACK_MAIN_FILE ) ) . '" alt="Paystack Payment Options" />';
-		} elseif ( 'ZA' === $base_location['country'] ) {
-			$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/paystack-za.png', WC_PAYSTACK_MAIN_FILE ) ) . '" alt="Paystack Payment Options" />';
-		} elseif ( 'KE' === $base_location['country'] ) {
-			$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/paystack-ke.png', WC_PAYSTACK_MAIN_FILE ) ) . '" alt="Paystack Payment Options" />';
-		} else {
-			$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/paystack-wc.png', WC_PAYSTACK_MAIN_FILE ) ) . '" alt="Paystack Payment Options" />';
-		}
+	//	if ( 'GH' === $base_location['country'] ) {
+		//	$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/payaza-gh.png', WC_PAYaza_MAIN_FILE ) ) . '" alt="Payaza Payment Options" />';
+	//	} elseif ( 'ZA' === $base_location['country'] ) {
+		//	$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/payaza-za.png', WC_PAYaza_MAIN_FILE ) ) . '" alt="Payaza Payment Options" />';
+		//} elseif ( 'KE' === $base_location['country'] ) {
+		//	$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/payaza-ke.png', WC_PAYaza_MAIN_FILE ) ) . '" alt="Payaza Payment Options" />';
+	//	} else {
+		//	$icon = '<img src="' . WC_HTTPS::force_https_url( plugins_url( 'assets/images/payaza-wc.png', WC_PAYaza_MAIN_FILE ) ) . '" alt="Payaza Payment Options" />';
+		//}
 
-		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
+		//return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 
-	}
-
+	//}
+   
 	/**
-	 * Check if Paystack merchant details is filled.
+	 * Check if Payaza merchant details is filled.
 	 */
 	public function admin_notices() {
 
@@ -318,14 +318,14 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		// Check required fields.
 		if ( ! ( $this->public_key && $this->secret_key ) ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Please enter your Paystack merchant details <a href="%s">here</a> to be able to use the Paystack WooCommerce plugin.', 'woo-paystack' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=paystack' ) ) . '</p></div>';
+			echo '<div class="error"><p>' . sprintf( __( 'Please enter your Payaza merchant details <a href="%s">here</a> to be able to use the Payaza WooCommerce plugin.', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) . '</p></div>';
 			return;
 		}
 
 	}
 
 	/**
-	 * Check if Paystack gateway is enabled.
+	 * Check if Payaza gateway is enabled.
 	 *
 	 * @return bool
 	 */
@@ -354,16 +354,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		?>
 
-		<h2><?php _e( 'Paystack', 'woo-paystack' ); ?>
+		<h2><?php _e( 'Payaza', 'woo-payaza' ); ?>
 		<?php
 		if ( function_exists( 'wc_back_link' ) ) {
-			wc_back_link( __( 'Return to payments', 'woo-paystack' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) );
+			wc_back_link( __( 'Return to payments', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) );
 		}
 		?>
 		</h2>
 
 		<h4>
-			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Paystack_Webhook' ) ); ?></strong>
+			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-payaza' ), 'https://dashboard.payaza.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></strong>
 		</h4>
 
 		<?php
@@ -376,7 +376,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		} else {
 			?>
-			<div class="inline error"><p><strong><?php _e( 'Paystack Payment Gateway Disabled', 'woo-paystack' ); ?></strong>: <?php echo $this->msg; ?></p></div>
+			<div class="inline error"><p><strong><?php _e( 'Payaza Payment Gateway Disabled', 'woo-payaza' ); ?></strong>: <?php echo $this->msg; ?></p></div>
 
 			<?php
 		}
@@ -390,108 +390,108 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$form_fields = array(
 			'enabled'                          => array(
-				'title'       => __( 'Enable/Disable', 'woo-paystack' ),
-				'label'       => __( 'Enable Paystack', 'woo-paystack' ),
+				'title'       => __( 'Enable/Disable', 'woo-payaza' ),
+				'label'       => __( 'Enable Payaza', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enable Paystack as a payment option on the checkout page.', 'woo-paystack' ),
+				'description' => __( 'Enable Payaza as a payment option on the checkout page.', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'title'                            => array(
-				'title'       => __( 'Title', 'woo-paystack' ),
+				'title'       => __( 'Title', 'woo-payaza' ),
 				'type'        => 'text',
-				'description' => __( 'This controls the payment method title which the user sees during checkout.', 'woo-paystack' ),
-				'default'     => __( 'Debit/Credit Cards', 'woo-paystack' ),
+				'description' => __( 'This controls the payment method title which the user sees during checkout.', 'woo-payaza' ),
+				'default'     => __( 'Debit/Credit Cards', 'woo-payaza' ),
 				'desc_tip'    => true,
 			),
 			'description'                      => array(
-				'title'       => __( 'Description', 'woo-paystack' ),
+				'title'       => __( 'Description', 'woo-payaza' ),
 				'type'        => 'textarea',
-				'description' => __( 'This controls the payment method description which the user sees during checkout.', 'woo-paystack' ),
-				'default'     => __( 'Make payment using your debit and credit cards', 'woo-paystack' ),
+				'description' => __( 'This controls the payment method description which the user sees during checkout.', 'woo-payaza' ),
+				'default'     => __( 'Make payment using your debit and credit cards', 'woo-payaza' ),
 				'desc_tip'    => true,
 			),
 			'testmode'                         => array(
-				'title'       => __( 'Test mode', 'woo-paystack' ),
-				'label'       => __( 'Enable Test Mode', 'woo-paystack' ),
+				'title'       => __( 'Test mode', 'woo-payaza' ),
+				'label'       => __( 'Enable Test Mode', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Test mode enables you to test payments before going live. <br />Once the LIVE MODE is enabled on your Paystack account uncheck this.', 'woo-paystack' ),
+				'description' => __( 'Test mode enables you to test payments before going live. <br />Once the LIVE MODE is enabled on your Payaza account uncheck this.', 'woo-payaza' ),
 				'default'     => 'yes',
 				'desc_tip'    => true,
 			),
 			'payment_page'                     => array(
-				'title'       => __( 'Payment Option', 'woo-paystack' ),
+				'title'       => __( 'Payment Option', 'woo-payaza' ),
 				'type'        => 'select',
-				'description' => __( 'Popup shows the payment popup on the page while Redirect will redirect the customer to Paystack to make payment.', 'woo-paystack' ),
+				'description' => __( 'Popup shows the payment popup on the page while Redirect will redirect the customer to Payaza to make payment.', 'woo-payaza' ),
 				'default'     => '',
 				'desc_tip'    => false,
 				'options'     => array(
-					''          => __( 'Select One', 'woo-paystack' ),
-					'inline'    => __( 'Popup', 'woo-paystack' ),
-					'redirect'  => __( 'Redirect', 'woo-paystack' ),
+					''          => __( 'Select One', 'woo-payaza' ),
+					'inline'    => __( 'Popup', 'woo-payaza' ),
+					'redirect'  => __( 'Redirect', 'woo-payaza' ),
 				),
 			),
 			'test_secret_key'                  => array(
-				'title'       => __( 'Test Secret Key', 'woo-paystack' ),
+				'title'       => __( 'Test Secret Key', 'woo-payaza' ),
 				'type'        => 'password',
-				'description' => __( 'Enter your Test Secret Key here', 'woo-paystack' ),
+				'description' => __( 'Enter your Test Secret Key here', 'woo-payaza' ),
 				'default'     => '',
 			),
 			'test_public_key'                  => array(
-				'title'       => __( 'Test Public Key', 'woo-paystack' ),
+				'title'       => __( 'Test Public Key', 'woo-payaza' ),
 				'type'        => 'text',
-				'description' => __( 'Enter your Test Public Key here.', 'woo-paystack' ),
+				'description' => __( 'Enter your Test Public Key here.', 'woo-payaza' ),
 				'default'     => '',
 			),
 			'live_secret_key'                  => array(
-				'title'       => __( 'Live Secret Key', 'woo-paystack' ),
+				'title'       => __( 'Live Secret Key', 'woo-payaza' ),
 				'type'        => 'password',
-				'description' => __( 'Enter your Live Secret Key here.', 'woo-paystack' ),
+				'description' => __( 'Enter your Live Secret Key here.', 'woo-payaza' ),
 				'default'     => '',
 			),
 			'live_public_key'                  => array(
-				'title'       => __( 'Live Public Key', 'woo-paystack' ),
+				'title'       => __( 'Live Public Key', 'woo-payaza' ),
 				'type'        => 'text',
-				'description' => __( 'Enter your Live Public Key here.', 'woo-paystack' ),
+				'description' => __( 'Enter your Live Public Key here.', 'woo-payaza' ),
 				'default'     => '',
 			),
 			'autocomplete_order'               => array(
-				'title'       => __( 'Autocomplete Order After Payment', 'woo-paystack' ),
-				'label'       => __( 'Autocomplete Order', 'woo-paystack' ),
+				'title'       => __( 'Autocomplete Order After Payment', 'woo-payaza' ),
+				'label'       => __( 'Autocomplete Order', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-autocomplete-order',
-				'description' => __( 'If enabled, the order will be marked as complete after successful payment', 'woo-paystack' ),
+				'class'       => 'wc-payaza-autocomplete-order',
+				'description' => __( 'If enabled, the order will be marked as complete after successful payment', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'remove_cancel_order_button'       => array(
-				'title'       => __( 'Remove Cancel Order & Restore Cart Button', 'woo-paystack' ),
-				'label'       => __( 'Remove the cancel order & restore cart button on the pay for order page', 'woo-paystack' ),
+				'title'       => __( 'Remove Cancel Order & Restore Cart Button', 'woo-payaza' ),
+				'label'       => __( 'Remove the cancel order & restore cart button on the pay for order page', 'woo-payaza' ),
 				'type'        => 'checkbox',
 				'description' => '',
 				'default'     => 'no',
 			),
 			'split_payment'                    => array(
-				'title'       => __( 'Split Payment', 'woo-paystack' ),
-				'label'       => __( 'Enable Split Payment', 'woo-paystack' ),
+				'title'       => __( 'Split Payment', 'woo-payaza' ),
+				'label'       => __( 'Enable Split Payment', 'woo-payaza' ),
 				'type'        => 'checkbox',
 				'description' => '',
-				'class'       => 'woocommerce_paystack_split_payment',
+				'class'       => 'woocommerce_payaza_split_payment',
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'subaccount_code'                  => array(
-				'title'       => __( 'Subaccount Code', 'woo-paystack' ),
+				'title'       => __( 'Subaccount Code', 'woo-payaza' ),
 				'type'        => 'text',
-				'description' => __( 'Enter the subaccount code here.', 'woo-paystack' ),
-				'class'       => 'woocommerce_paystack_subaccount_code',
+				'description' => __( 'Enter the subaccount code here.', 'woo-payaza' ),
+				'class'       => 'woocommerce_payaza_subaccount_code',
 				'default'     => '',
 			),
 			'split_payment_transaction_charge' => array(
-				'title'             => __( 'Split Payment Transaction Charge', 'woo-paystack' ),
+				'title'             => __( 'Split Payment Transaction Charge', 'woo-payaza' ),
 				'type'              => 'number',
-				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-paystack' ),
-				'class'             => __( 'woocommerce_paystack_split_payment_transaction_charge', 'woo-paystack' ),
+				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-payaza' ),
+				'class'             => __( 'woocommerce_payaza_split_payment_transaction_charge', 'woo-payaza' ),
 				'default'           => '',
 				'custom_attributes' => array(
 					'min'  => 1,
@@ -500,110 +500,110 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				'desc_tip'          => false,
 			),
 			'split_payment_charge_account'     => array(
-				'title'       => __( 'Paystack Charges Bearer', 'woo-paystack' ),
+				'title'       => __( 'Payaza Charges Bearer', 'woo-payaza' ),
 				'type'        => 'select',
-				'description' => __( 'Who bears Paystack charges?', 'woo-paystack' ),
-				'class'       => 'woocommerce_paystack_split_payment_charge_account',
+				'description' => __( 'Who bears Payaza charges?', 'woo-payaza' ),
+				'class'       => 'woocommerce_payaza_split_payment_charge_account',
 				'default'     => '',
 				'desc_tip'    => false,
 				'options'     => array(
-					''           => __( 'Select One', 'woo-paystack' ),
-					'account'    => __( 'Account', 'woo-paystack' ),
-					'subaccount' => __( 'Subaccount', 'woo-paystack' ),
+					''           => __( 'Select One', 'woo-payaza' ),
+					'account'    => __( 'Account', 'woo-payaza' ),
+					'subaccount' => __( 'Subaccount', 'woo-payaza' ),
 				),
 			),
 			'custom_gateways'                  => array(
-				'title'       => __( 'Additional Paystack Gateways', 'woo-paystack' ),
+				'title'       => __( 'Additional Payaza Gateways', 'woo-payaza' ),
 				'type'        => 'select',
-				'description' => __( 'Create additional custom Paystack based gateways. This allows you to create additional Paystack gateways using custom filters. You can create a gateway that accepts only verve cards, a gateway that accepts only bank payment, a gateway that accepts a specific bank issued cards.', 'woo-paystack' ),
+				'description' => __( 'Create additional custom Payaza based gateways. This allows you to create additional Payaza gateways using custom filters. You can create a gateway that accepts only verve cards, a gateway that accepts only bank payment, a gateway that accepts a specific bank issued cards.', 'woo-payaza' ),
 				'default'     => '',
 				'desc_tip'    => true,
 				'options'     => array(
-					''  => __( 'Select One', 'woo-paystack' ),
-					'1' => __( '1 gateway', 'woo-paystack' ),
-					'2' => __( '2 gateways', 'woo-paystack' ),
-					'3' => __( '3 gateways', 'woo-paystack' ),
-					'4' => __( '4 gateways', 'woo-paystack' ),
-					'5' => __( '5 gateways', 'woo-paystack' ),
+					''  => __( 'Select One', 'woo-payaza' ),
+					'1' => __( '1 gateway', 'woo-payaza' ),
+					'2' => __( '2 gateways', 'woo-payaza' ),
+					'3' => __( '3 gateways', 'woo-payaza' ),
+					'4' => __( '4 gateways', 'woo-payaza' ),
+					'5' => __( '5 gateways', 'woo-payaza' ),
 				),
 			),
 			'saved_cards'                      => array(
-				'title'       => __( 'Saved Cards', 'woo-paystack' ),
-				'label'       => __( 'Enable Payment via Saved Cards', 'woo-paystack' ),
+				'title'       => __( 'Saved Cards', 'woo-payaza' ),
+				'label'       => __( 'Enable Payment via Saved Cards', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'description' => __( 'If enabled, users will be able to pay with a saved card during checkout. Card details are saved on Paystack servers, not on your store.<br>Note that you need to have a valid SSL certificate installed.', 'woo-paystack' ),
+				'description' => __( 'If enabled, users will be able to pay with a saved card during checkout. Card details are saved on Payaza servers, not on your store.<br>Note that you need to have a valid SSL certificate installed.', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'custom_metadata'                  => array(
-				'title'       => __( 'Custom Metadata', 'woo-paystack' ),
-				'label'       => __( 'Enable Custom Metadata', 'woo-paystack' ),
+				'title'       => __( 'Custom Metadata', 'woo-payaza' ),
+				'label'       => __( 'Enable Custom Metadata', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-metadata',
-				'description' => __( 'If enabled, you will be able to send more information about the order to Paystack.', 'woo-paystack' ),
+				'class'       => 'wc-payaza-metadata',
+				'description' => __( 'If enabled, you will be able to send more information about the order to Payaza.', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_order_id'                    => array(
-				'title'       => __( 'Order ID', 'woo-paystack' ),
-				'label'       => __( 'Send Order ID', 'woo-paystack' ),
+				'title'       => __( 'Order ID', 'woo-payaza' ),
+				'label'       => __( 'Send Order ID', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-order-id',
-				'description' => __( 'If checked, the Order ID will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-order-id',
+				'description' => __( 'If checked, the Order ID will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_name'                        => array(
-				'title'       => __( 'Customer Name', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Name', 'woo-paystack' ),
+				'title'       => __( 'Customer Name', 'woo-payaza' ),
+				'label'       => __( 'Send Customer Name', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-name',
-				'description' => __( 'If checked, the customer full name will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-name',
+				'description' => __( 'If checked, the customer full name will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_email'                       => array(
-				'title'       => __( 'Customer Email', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Email', 'woo-paystack' ),
+				'title'       => __( 'Customer Email', 'woo-payaza' ),
+				'label'       => __( 'Send Customer Email', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-email',
-				'description' => __( 'If checked, the customer email address will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-email',
+				'description' => __( 'If checked, the customer email address will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_phone'                       => array(
-				'title'       => __( 'Customer Phone', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Phone', 'woo-paystack' ),
+				'title'       => __( 'Customer Phone', 'woo-payaza' ),
+				'label'       => __( 'Send Customer Phone', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-phone',
-				'description' => __( 'If checked, the customer phone will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-phone',
+				'description' => __( 'If checked, the customer phone will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_billing_address'             => array(
-				'title'       => __( 'Order Billing Address', 'woo-paystack' ),
-				'label'       => __( 'Send Order Billing Address', 'woo-paystack' ),
+				'title'       => __( 'Order Billing Address', 'woo-payaza' ),
+				'label'       => __( 'Send Order Billing Address', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-billing-address',
-				'description' => __( 'If checked, the order billing address will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-billing-address',
+				'description' => __( 'If checked, the order billing address will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_shipping_address'            => array(
-				'title'       => __( 'Order Shipping Address', 'woo-paystack' ),
-				'label'       => __( 'Send Order Shipping Address', 'woo-paystack' ),
+				'title'       => __( 'Order Shipping Address', 'woo-payaza' ),
+				'label'       => __( 'Send Order Shipping Address', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-shipping-address',
-				'description' => __( 'If checked, the order shipping address will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-shipping-address',
+				'description' => __( 'If checked, the order shipping address will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
 			'meta_products'                    => array(
-				'title'       => __( 'Product(s) Purchased', 'woo-paystack' ),
-				'label'       => __( 'Send Product(s) Purchased', 'woo-paystack' ),
+				'title'       => __( 'Product(s) Purchased', 'woo-payaza' ),
+				'label'       => __( 'Send Product(s) Purchased', 'woo-payaza' ),
 				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-products',
-				'description' => __( 'If checked, the product(s) purchased will be sent to Paystack', 'woo-paystack' ),
+				'class'       => 'wc-payaza-meta-products',
+				'description' => __( 'If checked, the product(s) purchased will be sent to Payaza', 'woo-payaza' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
@@ -639,7 +639,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Outputs scripts used for paystack payment.
+	 * Outputs scripts used for payaza payment.
 	 */
 	public function payment_scripts() {
 
@@ -664,11 +664,11 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'paystack', 'https://js.paystack.co/v1/inline.js', array( 'jquery' ), WC_PAYSTACK_VERSION, false );
+		wp_enqueue_script( 'payaza', 'https://js.payaza.co/v1/inline.js', array( 'jquery' ), WC_PAYaza_VERSION, false );
 
-		wp_enqueue_script( 'wc_paystack', plugins_url( 'assets/js/paystack' . $suffix . '.js', WC_PAYSTACK_MAIN_FILE ), array( 'jquery', 'paystack' ), WC_PAYSTACK_VERSION, false );
+		wp_enqueue_script( 'wc_payaza', plugins_url( 'assets/js/payaza' . $suffix . '.js', WC_PAYaza_MAIN_FILE ), array( 'jquery', 'payaza' ), WC_PAYaza_VERSION, false );
 
-		$paystack_params = array(
+		$payaza_params = array(
 			'key' => $this->public_key,
 		);
 
@@ -683,48 +683,48 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			if ( $the_order_id == $order_id && $the_order_key == $order_key ) {
 
-				$paystack_params['email']    = $email;
-				$paystack_params['amount']   = $amount;
-				$paystack_params['txnref']   = $txnref;
-				$paystack_params['currency'] = $currency;
+				$payaza_params['email']    = $email;
+				$payaza_params['amount']   = $amount;
+				$payaza_params['txnref']   = $txnref;
+				$payaza_params['currency'] = $currency;
 
 			}
 
-			if ( $this->split_payment ) {
+			//if ( $this->split_payment ) {
 
-				$paystack_params['subaccount_code'] = $this->subaccount_code;
-				$paystack_params['charges_account'] = $this->charges_account;
+			//	$payaza_params['subaccount_code'] = $this->subaccount_code;
+			//	$payaza_params['charges_account'] = $this->charges_account;
 
-				if ( empty( $this->transaction_charges ) ) {
-					$paystack_params['transaction_charges'] = '';
-				} else {
-					$paystack_params['transaction_charges'] = $this->transaction_charges * 100;
-				}
-			}
+			//	if ( empty( $this->transaction_charges ) ) {
+			//		$payaza_params['transaction_charges'] = '';
+			//	} else {
+			//		$payaza_params['transaction_charges'] = $this->transaction_charges * 100;
+			//	}
+			//}
 
 			if ( $this->custom_metadata ) {
 
 				if ( $this->meta_order_id ) {
 
-					$paystack_params['meta_order_id'] = $order_id;
+					$payaza_params['meta_order_id'] = $order_id;
 
 				}
 
 				if ( $this->meta_name ) {
 
-					$paystack_params['meta_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+					$payaza_params['meta_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 
 				}
 
 				if ( $this->meta_email ) {
 
-					$paystack_params['meta_email'] = $email;
+					$payaza_params['meta_email'] = $email;
 
 				}
 
 				if ( $this->meta_phone ) {
 
-					$paystack_params['meta_phone'] = $order->get_billing_phone();
+					$payaza_params['meta_phone'] = $order->get_billing_phone();
 
 				}
 
@@ -743,7 +743,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 					$products = rtrim( $products, ' | ' );
 
-					$paystack_params['meta_products'] = $products;
+					$payaza_params['meta_products'] = $products;
 
 				}
 
@@ -752,7 +752,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$billing_address = $order->get_formatted_billing_address();
 					$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
 
-					$paystack_params['meta_billing_address'] = $billing_address;
+					$payaza_params['meta_billing_address'] = $billing_address;
 
 				}
 
@@ -770,16 +770,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 					}
 
-					$paystack_params['meta_shipping_address'] = $shipping_address;
+					$payaza_params['meta_shipping_address'] = $shipping_address;
 
 				}
 			}
 
-			update_post_meta( $order_id, '_paystack_txn_ref', $txnref );
+			update_post_meta( $order_id, '_payaza_txn_ref', $txnref );
 
 		}
 
-		wp_localize_script( 'wc_paystack', 'wc_paystack_params', $paystack_params );
+		wp_localize_script( 'wc_payaza', 'wc_payaza_params', $payaza_params );
 
 	}
 
@@ -794,13 +794,13 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		$paystack_admin_params = array(
-			'plugin_url' => WC_PAYSTACK_URL,
+		$payaza_admin_params = array(
+			'plugin_url' => WC_PAYaza_URL,
 		);
 
-		wp_enqueue_script( 'wc_paystack_admin', plugins_url( 'assets/js/paystack-admin' . $suffix . '.js', WC_PAYSTACK_MAIN_FILE ), array(), WC_PAYSTACK_VERSION, true );
+		wp_enqueue_script( 'wc_payaza_admin', plugins_url( 'assets/js/payaza-admin' . $suffix . '.js', WC_PAYaza_MAIN_FILE ), array(), WC_PAYaza_VERSION, true );
 
-		wp_localize_script( 'wc_paystack_admin', 'wc_paystack_admin_params', $paystack_admin_params );
+		wp_localize_script( 'wc_payaza_admin', 'wc_payaza_admin_params', $payaza_admin_params );
 
 	}
 
@@ -847,7 +847,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			if ( is_user_logged_in() && isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) && true === (bool) $_POST[ 'wc-' . $this->id . '-new-payment-method' ] && $this->saved_cards ) {
 
-				update_post_meta( $order_id, '_wc_paystack_save_card', true );
+				update_post_meta( $order_id, '_wc_payaza_save_card', true );
 
 			}
 
@@ -874,11 +874,11 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$order        = wc_get_order( $order_id );
 		$amount       = $order->get_total() * 100;
 		$txnref       = $order_id . '_' . time();
-		$callback_url = WC()->api_request_url( 'WC_Gateway_Paystack' );
+		$callback_url = WC()->api_request_url( 'WC_Gateway_Payaza' );
 
 		$payment_channels = $this->get_gateway_payment_channels( $order );
 
-		$paystack_params = array(
+		$payaza_params = array(
 			'amount'       => $amount,
 			'email'        => $order->get_billing_email(),
 			'currency'     => $order->get_currency(),
@@ -887,27 +887,27 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		);
 
 		if ( ! empty( $payment_channels ) ) {
-			$paystack_params['channels'] = $payment_channels;
+			$payaza_params['channels'] = $payment_channels;
 		}
 
-		if ( $this->split_payment ) {
+		//if ( $this->split_payment ) {
 
-			$paystack_params['subaccount'] = $this->subaccount_code;
-			$paystack_params['bearer']     = $this->charges_account;
+			//$payaza_params['subaccount'] = $this->subaccount_code;
+			//$payaza_params['bearer']     = $this->charges_account;
 
-			if ( empty( $this->transaction_charges ) ) {
-				$paystack_params['transaction_charge'] = '';
-			} else {
-				$paystack_params['transaction_charge'] = $this->transaction_charges * 100;
-			}
-		}
+			//if ( empty( $this->transaction_charges ) ) {
+			//	$payaza_params['transaction_charge'] = '';
+		//	} else {
+			//	$payaza_params['transaction_charge'] = $this->transaction_charges * 100;
+		//	}
+		//}
 
-		$paystack_params['metadata']['custom_fields'] = $this->get_custom_fields( $order_id );
-		$paystack_params['metadata']['cancel_action'] = wc_get_cart_url();
+		$payaza_params['metadata']['custom_fields'] = $this->get_custom_fields( $order_id );
+		$payaza_params['metadata']['cancel_action'] = wc_get_cart_url();
 
-		update_post_meta( $order_id, '_paystack_txn_ref', $txnref );
+		update_post_meta( $order_id, '_payaza_txn_ref', $txnref );
 
-		$paystack_url = 'https://api.paystack.co/transaction/initialize/';
+		$payaza_url = 'https://api.payaza.co/transaction/initialize/';
 
 		$headers = array(
 			'Authorization' => 'Bearer ' . $this->secret_key,
@@ -917,22 +917,22 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$args = array(
 			'headers' => $headers,
 			'timeout' => 60,
-			'body'    => json_encode( $paystack_params ),
+			'body'    => json_encode( $payaza_params ),
 		);
 
-		$request = wp_remote_post( $paystack_url, $args );
+		$request = wp_remote_post( $payaza_url, $args );
 
 		if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
 
-			$paystack_response = json_decode( wp_remote_retrieve_body( $request ) );
+			$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
 
 			return array(
 				'result'   => 'success',
-				'redirect' => $paystack_response->data->authorization_url,
+				'redirect' => $payaza_response->data->authorization_url,
 			);
 
 		} else {
-			wc_add_notice( __( 'Unable to process payment try again', 'woo-paystack' ), 'error' );
+			wc_add_notice( __( 'Unable to process payment try again', 'woo-payaza' ), 'error' );
 
 			return;
 		}
@@ -955,7 +955,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			$order_amount = $order->get_total() * 100;
 
-			$paystack_url = 'https://api.paystack.co/transaction/charge_authorization';
+			$payaza_url = 'https://api.payaza.co/transaction/charge_authorization';
 
 			$headers = array(
 				'Content-Type'  => 'application/json',
@@ -977,13 +977,13 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				'timeout' => 60,
 			);
 
-			$request = wp_remote_post( $paystack_url, $args );
+			$request = wp_remote_post( $payaza_url, $args );
 
 			if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
 
-				$paystack_response = json_decode( wp_remote_retrieve_body( $request ) );
+				$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
 
-				if ( 'success' == $paystack_response->data->status ) {
+				if ( 'success' == $payaza_response->data->status ) {
 
 					$order = wc_get_order( $order_id );
 
@@ -998,9 +998,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$order_total      = $order->get_total();
 					$order_currency   = $order->get_currency();
 					$currency_symbol  = get_woocommerce_currency_symbol( $order_currency );
-					$amount_paid      = $paystack_response->data->amount / 100;
-					$paystack_ref     = $paystack_response->data->reference;
-					$payment_currency = $paystack_response->data->currency;
+					$amount_paid      = $payaza_response->data->amount / 100;
+					$payaza_ref     = $payaza_response->data->reference;
+					$payment_currency = $payaza_response->data->currency;
 					$gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
 					// check if the amount paid is equal to the order amount.
@@ -1008,16 +1008,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 						$order->update_status( 'on-hold', '' );
 
-						add_post_meta( $order_id, '_transaction_id', $paystack_ref, true );
+						add_post_meta( $order_id, '_transaction_id', $payaza_ref, true );
 
-						$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+						$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 						$notice_type = 'notice';
 
 						// Add Customer Order Note
 						$order->add_order_note( $notice, 1 );
 
 						// Add Admin Order Note
-						$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $paystack_ref );
+						$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $payaza_ref );
 						$order->add_order_note( $admin_order_note );
 
 						wc_add_notice( $notice, $notice_type );
@@ -1028,16 +1028,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 							$order->update_status( 'on-hold', '' );
 
-							update_post_meta( $order_id, '_transaction_id', $paystack_ref );
+							update_post_meta( $order_id, '_transaction_id', $payaza_ref );
 
-							$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+							$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 							$notice_type = 'notice';
 
 							// Add Customer Order Note
 							$order->add_order_note( $notice, 1 );
 
 							// Add Admin Order Note
-							$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $paystack_ref );
+							$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $payaza_ref );
 							$order->add_order_note( $admin_order_note );
 
 							function_exists( 'wc_reduce_stock_levels' ) ? wc_reduce_stock_levels( $order_id ) : $order->reduce_order_stock();
@@ -1046,14 +1046,14 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 						} else {
 
-							$order->payment_complete( $paystack_ref );
+							$order->payment_complete( $payaza_ref );
 
-							$order->add_order_note( sprintf( 'Payment via Paystack successful (Transaction Reference: %s)', $paystack_ref ) );
+							$order->add_order_note( sprintf( 'Payment via Payaza successful (Transaction Reference: %s)', $payaza_ref ) );
 
 						}
 					}
 
-					$this->save_subscription_payment_token( $order_id, $paystack_response );
+					$this->save_subscription_payment_token( $order_id, $payaza_response );
 
 					WC()->cart->empty_cart();
 
@@ -1061,13 +1061,13 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 				} else {
 
-					$order_notice  = __( 'Payment was declined by Paystack.', 'woo-paystack' );
-					$failed_notice = __( 'Payment failed using the saved card. Kindly use another payment option.', 'woo-paystack' );
+					$order_notice  = __( 'Payment was declined by Payaza.', 'woo-payaza' );
+					$failed_notice = __( 'Payment failed using the saved card. Kindly use another payment option.', 'woo-payaza' );
 
-					if ( isset( $paystack_response->data->gateway_response ) && ! empty( $paystack_response->data->gateway_response ) ) {
+					if ( isset( $payaza_response->data->gateway_response ) && ! empty( $payaza_response->data->gateway_response ) ) {
 
-						$order_notice  = sprintf( __( 'Payment was declined by Paystack. Reason: %s.', 'woo-paystack' ), $paystack_response->data->gateway_response );
-						$failed_notice = sprintf( __( 'Payment failed using the saved card. Reason: %s. Kindly use another payment option.', 'woo-paystack' ), $paystack_response->data->gateway_response );
+						$order_notice  = sprintf( __( 'Payment was declined by Payaza. Reason: %s.', 'woo-payaza' ), $payaza_response->data->gateway_response );
+						$failed_notice = sprintf( __( 'Payment failed using the saved card. Reason: %s. Kindly use another payment option.', 'woo-payaza' ), $payaza_response->data->gateway_response );
 
 					}
 
@@ -1081,7 +1081,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			}
 		} else {
 
-			wc_add_notice( __( 'Payment Failed.', 'woo-paystack' ), 'error' );
+			wc_add_notice( __( 'Payment Failed.', 'woo-payaza' ), 'error' );
 
 		}
 
@@ -1092,7 +1092,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 */
 	public function add_payment_method() {
 
-		wc_add_notice( __( 'You can only add a new card when placing an order.', 'woo-paystack' ), 'error' );
+		wc_add_notice( __( 'You can only add a new card when placing an order.', 'woo-payaza' ), 'error' );
 
 		return;
 
@@ -1107,14 +1107,14 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$order = wc_get_order( $order_id );
 
-		echo '<div id="wc-paystack-form">';
+		echo '<div id="wc-payaza-form">';
 
-		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Paystack.', 'woo-paystack' ) . '</p>';
+		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ) . '</p>';
 
-		echo '<div id="paystack_form"><form id="order_review" method="post" action="' . WC()->api_request_url( 'WC_Gateway_Paystack' ) . '"></form><button class="button" id="paystack-payment-button">' . __( 'Pay Now', 'woo-paystack' ) . '</button>';
+		echo '<div id="payaza_form"><form id="order_review" method="post" action="' . WC()->api_request_url( 'WC_Gateway_Payaza' ) . '"></form><button class="button" id="payaza-payment-button">' . __( 'Pay Now', 'woo-payaza' ) . '</button>';
 
 		if ( ! $this->remove_cancel_order_button ) {
-			echo '  <a class="button cancel" id="paystack-cancel-payment-button" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woo-paystack' ) . '</a></div>';
+			echo '  <a class="button cancel" id="payaza-cancel-payment-button" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woo-payaza' ) . '</a></div>';
 		}
 
 		echo '</div>';
@@ -1122,23 +1122,23 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Verify Paystack payment.
+	 * Verify Payaza payment.
 	 */
-	public function verify_paystack_transaction() {
+	public function verify_payaza_transaction() {
 
-		if ( isset( $_REQUEST['paystack_txnref'] ) ) {
-			$paystack_txn_ref = sanitize_text_field( $_REQUEST['paystack_txnref'] );
+		if ( isset( $_REQUEST['payaza_txnref'] ) ) {
+			$payaza_txn_ref = sanitize_text_field( $_REQUEST['payaza_txnref'] );
 		} elseif ( isset( $_REQUEST['reference'] ) ) {
-			$paystack_txn_ref = sanitize_text_field( $_REQUEST['reference'] );
+			$payaza_txn_ref = sanitize_text_field( $_REQUEST['reference'] );
 		} else {
-			$paystack_txn_ref = false;
+			$payaza_txn_ref = false;
 		}
 
 		@ob_clean();
 
-		if ( $paystack_txn_ref ) {
+		if ( $payaza_txn_ref ) {
 
-			$paystack_url = 'https://api.paystack.co/transaction/verify/' . $paystack_txn_ref;
+			$payaza_url = 'https://api.payaza.co/transaction/verify/' . $payaza_txn_ref;
 
 			$headers = array(
 				'Authorization' => 'Bearer ' . $this->secret_key,
@@ -1149,15 +1149,15 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				'timeout' => 60,
 			); 
 
-			$request = wp_remote_get( $paystack_url, $args );
+			$request = wp_remote_get( $payaza_url, $args );
 
 			if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
 
-				$paystack_response = json_decode( wp_remote_retrieve_body( $request ) );
+				$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
 
-				if ( 'success' == $paystack_response->data->status ) {
+				if ( 'success' == $payaza_response->data->status ) {
 
-					$order_details = explode( '_', $paystack_response->data->reference );
+					$order_details = explode( '_', $payaza_response->data->reference );
 					$order_id      = (int) $order_details[0];
 					$order         = wc_get_order( $order_id );
 
@@ -1172,9 +1172,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					$order_total      = $order->get_total();
 					$order_currency   = $order->get_currency();
 					$currency_symbol  = get_woocommerce_currency_symbol( $order_currency );
-					$amount_paid      = $paystack_response->data->amount / 100;
-					$paystack_ref     = $paystack_response->data->reference;
-					$payment_currency = strtoupper( $paystack_response->data->currency );
+					$amount_paid      = $payaza_response->data->amount / 100;
+					$payaza_ref     = $payaza_response->data->reference;
+					$payment_currency = strtoupper( $payaza_response->data->currency );
 					$gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
 					// check if the amount paid is equal to the order amount.
@@ -1182,16 +1182,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 						$order->update_status( 'on-hold', '' );
 
-						add_post_meta( $order_id, '_transaction_id', $paystack_ref, true );
+						add_post_meta( $order_id, '_transaction_id', $payaza_ref, true );
 
-						$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+						$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 						$notice_type = 'notice';
 
 						// Add Customer Order Note
 						$order->add_order_note( $notice, 1 );
 
 						// Add Admin Order Note
-						$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $paystack_ref );
+						$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $payaza_ref );
 						$order->add_order_note( $admin_order_note );
 
 						function_exists( 'wc_reduce_stock_levels' ) ? wc_reduce_stock_levels( $order_id ) : $order->reduce_order_stock();
@@ -1204,16 +1204,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 							$order->update_status( 'on-hold', '' );
 
-							update_post_meta( $order_id, '_transaction_id', $paystack_ref );
+							update_post_meta( $order_id, '_transaction_id', $payaza_ref );
 
-							$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+							$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 							$notice_type = 'notice';
 
 							// Add Customer Order Note
 							$order->add_order_note( $notice, 1 );
 
 							// Add Admin Order Note
-							$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $paystack_ref );
+							$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $payaza_ref );
 							$order->add_order_note( $admin_order_note );
 
 							function_exists( 'wc_reduce_stock_levels' ) ? wc_reduce_stock_levels( $order_id ) : $order->reduce_order_stock();
@@ -1222,8 +1222,8 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 						} else {
 
-							$order->payment_complete( $paystack_ref );
-							$order->add_order_note( sprintf( __( 'Payment via Paystack successful (Transaction Reference: %s)', 'woo-paystack' ), $paystack_ref ) );
+							$order->payment_complete( $payaza_ref );
+							$order->add_order_note( sprintf( __( 'Payment via Payaza successful (Transaction Reference: %s)', 'woo-payaza' ), $payaza_ref ) );
 
 							if ( $this->is_autocomplete_order_enabled( $order ) ) {
 								$order->update_status( 'completed' );
@@ -1231,19 +1231,19 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 						}
 					}
 
-					$this->save_card_details( $paystack_response, $order->get_user_id(), $order_id );
+					$this->save_card_details( $payaza_response, $order->get_user_id(), $order_id );
 
 					WC()->cart->empty_cart();
 
 				} else {
 
-					$order_details = explode( '_', $_REQUEST['paystack_txnref'] );
+					$order_details = explode( '_', $_REQUEST['payaza_txnref'] );
 
 					$order_id = (int) $order_details[0];
 
 					$order = wc_get_order( $order_id );
 
-					$order->update_status( 'failed', __( 'Payment was declined by Paystack.', 'woo-paystack' ) );
+					$order->update_status( 'failed', __( 'Payment was declined by Payaza.', 'woo-payaza' ) );
 
 				}
 			}
@@ -1264,14 +1264,14 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 */
 	public function process_webhooks() {
 
-		if ( ( strtoupper( $_SERVER['REQUEST_METHOD'] ) != 'POST' ) || ! array_key_exists( 'HTTP_X_PAYSTACK_SIGNATURE', $_SERVER ) ) {
+		if ( ( strtoupper( $_SERVER['REQUEST_METHOD'] ) != 'POST' ) || ! array_key_exists( 'HTTP_X_PAYaza_SIGNATURE', $_SERVER ) ) {
 			exit;
 		}
 
 		$json = file_get_contents( 'php://input' );
 
 		// validate event do all at once to avoid timing attack.
-		if ( $_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] !== hash_hmac( 'sha512', $json, $this->secret_key ) ) {
+		if ( $_SERVER['HTTP_X_PAYaza_SIGNATURE'] !== hash_hmac( 'sha512', $json, $this->secret_key ) ) {
 			exit;
 		}
 
@@ -1287,9 +1287,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			$order = wc_get_order( $order_id );
 
-			$paystack_txn_ref = get_post_meta( $order_id, '_paystack_txn_ref', true );
+			$payaza_txn_ref = get_post_meta( $order_id, '_payaza_txn_ref', true );
 
-			if ( $event->data->reference != $paystack_txn_ref ) {
+			if ( $event->data->reference != $payaza_txn_ref ) {
 				exit;
 			}
 
@@ -1307,7 +1307,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 			$amount_paid = $event->data->amount / 100;
 
-			$paystack_ref = $event->data->reference;
+			$payaza_ref = $event->data->reference;
 
 			$payment_currency = strtoupper( $event->data->currency );
 
@@ -1318,16 +1318,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 				$order->update_status( 'on-hold', '' );
 
-				add_post_meta( $order_id, '_transaction_id', $paystack_ref, true );
+				add_post_meta( $order_id, '_transaction_id', $payaza_ref, true );
 
-				$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+				$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 				$notice_type = 'notice';
 
 				// Add Customer Order Note.
 				$order->add_order_note( $notice, 1 );
 
 				// Add Admin Order Note.
-				$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $paystack_ref );
+				$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $payaza_ref );
 				$order->add_order_note( $admin_order_note );
 
 				function_exists( 'wc_reduce_stock_levels' ) ? wc_reduce_stock_levels( $order_id ) : $order->reduce_order_stock();
@@ -1342,16 +1342,16 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 					$order->update_status( 'on-hold', '' );
 
-					update_post_meta( $order_id, '_transaction_id', $paystack_ref );
+					update_post_meta( $order_id, '_transaction_id', $payaza_ref );
 
-					$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-paystack' ), '<br />', '<br />', '<br />' );
+					$notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but the payment currency is different from the order currency.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-payaza' ), '<br />', '<br />', '<br />' );
 					$notice_type = 'notice';
 
 					// Add Customer Order Note.
 					$order->add_order_note( $notice, 1 );
 
 					// Add Admin Order Note.
-					$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Paystack Transaction Reference:</strong> %9$s', 'woo-paystack' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $paystack_ref );
+					$admin_order_note = sprintf( __( '<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Order currency is different from the payment currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Payaza Transaction Reference:</strong> %9$s', 'woo-payaza' ), '<br />', '<br />', '<br />', $order_currency, $currency_symbol, $payment_currency, $gateway_symbol, '<br />', $payaza_ref );
 					$order->add_order_note( $admin_order_note );
 
 					function_exists( 'wc_reduce_stock_levels' ) ? wc_reduce_stock_levels( $order_id ) : $order->reduce_order_stock();
@@ -1360,9 +1360,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 				} else {
 
-					$order->payment_complete( $paystack_ref );
+					$order->payment_complete( $payaza_ref );
 
-					$order->add_order_note( sprintf( __( 'Payment via Paystack successful (Transaction Reference: %s)', 'woo-paystack' ), $paystack_ref ) );
+					$order->add_order_note( sprintf( __( 'Payment via Payaza successful (Transaction Reference: %s)', 'woo-payaza' ), $payaza_ref ) );
 
 					WC()->cart->empty_cart();
 
@@ -1384,27 +1384,27 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	/**
 	 * Save Customer Card Details.
 	 *
-	 * @param $paystack_response
+	 * @param $payaza_response
 	 * @param $user_id
 	 * @param $order_id
 	 */
-	public function save_card_details( $paystack_response, $user_id, $order_id ) {
+	public function save_card_details( $payaza_response, $user_id, $order_id ) {
 
-		$this->save_subscription_payment_token( $order_id, $paystack_response );
+		$this->save_subscription_payment_token( $order_id, $payaza_response );
 
-		$save_card = get_post_meta( $order_id, '_wc_paystack_save_card', true );
+		$save_card = get_post_meta( $order_id, '_wc_payaza_save_card', true );
 
-		if ( $user_id && $this->saved_cards && $save_card && $paystack_response->data->authorization->reusable && 'card' == $paystack_response->data->authorization->channel ) {
+		if ( $user_id && $this->saved_cards && $save_card && $payaza_response->data->authorization->reusable && 'card' == $payaza_response->data->authorization->channel ) {
 
 			$order = wc_get_order( $order_id );
 
 			$gateway_id = $order->get_payment_method();
 
-			$last4     = $paystack_response->data->authorization->last4;
-			$exp_year  = $paystack_response->data->authorization->exp_year;
-			$brand     = $paystack_response->data->authorization->card_type;
-			$exp_month = $paystack_response->data->authorization->exp_month;
-			$auth_code = $paystack_response->data->authorization->authorization_code;
+			$last4     = $payaza_response->data->authorization->last4;
+			$exp_year  = $payaza_response->data->authorization->exp_year;
+			$brand     = $payaza_response->data->authorization->card_type;
+			$exp_month = $payaza_response->data->authorization->exp_month;
+			$auth_code = $payaza_response->data->authorization->authorization_code;
 
 			$token = new WC_Payment_Token_CC();
 			$token->set_token( $auth_code );
@@ -1416,7 +1416,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			$token->set_user_id( $user_id );
 			$token->save();
 
-			delete_post_meta( $order_id, '_wc_paystack_save_card' );
+			delete_post_meta( $order_id, '_wc_payaza_save_card' );
 
 		}
 
@@ -1426,17 +1426,17 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	 * Save payment token to the order for automatic renewal for further subscription payment.
 	 *
 	 * @param $order_id
-	 * @param $paystack_response
+	 * @param $payaza_response
 	 */
-	public function save_subscription_payment_token( $order_id, $paystack_response ) {
+	public function save_subscription_payment_token( $order_id, $payaza_response ) {
 
 		if ( ! function_exists( 'wcs_order_contains_subscription' ) ) {
 			return;
 		}
 
-		if ( $this->order_contains_subscription( $order_id ) && $paystack_response->data->authorization->reusable && 'card' == $paystack_response->data->authorization->channel ) {
+		if ( $this->order_contains_subscription( $order_id ) && $payaza_response->data->authorization->reusable && 'card' == $payaza_response->data->authorization->channel ) {
 
-			$auth_code = $paystack_response->data->authorization->authorization_code;
+			$auth_code = $payaza_response->data->authorization->authorization_code;
 
 			// Also store it on the subscriptions being purchased or paid for in the order
 			if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order_id ) ) {
@@ -1457,7 +1457,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 				$subscription_id = $subscription->get_id();
 
-				update_post_meta( $subscription_id, '_paystack_token', $auth_code );
+				update_post_meta( $subscription_id, '_payaza_token', $auth_code );
 
 			}
 		}
@@ -1465,7 +1465,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Get custom fields to pass to Paystack.
+	 * Get custom fields to pass to Payaza.
 	 *
 	 * @param int $order_id WC Order ID
 	 *
@@ -1480,7 +1480,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 		$custom_fields[] = array(
 			'display_name'  => 'Plugin',
 			'variable_name' => 'plugin',
-			'value'         => 'woo-paystack',
+			'value'         => 'woo-payaza',
 		);
 		
 		if ( $this->custom_metadata ) {
@@ -1553,7 +1553,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				$billing_address = $order->get_formatted_billing_address();
 				$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
 
-				$paystack_params['meta_billing_address'] = $billing_address;
+				$payaza_params['meta_billing_address'] = $billing_address;
 
 				$custom_fields[] = array(
 					'display_name'  => 'Billing Address',
@@ -1618,7 +1618,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 			$transaction_id = $order->get_transaction_id();
 		}
 
-		$verify_url = 'https://api.paystack.co/transaction/verify/' . $transaction_id;
+		$verify_url = 'https://api.payaza.co/transaction/verify/' . $transaction_id;
 
 		$headers = array(
 			'Authorization' => 'Bearer ' . $this->secret_key,
@@ -1633,11 +1633,11 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
 
-			$paystack_response = json_decode( wp_remote_retrieve_body( $request ) );
+			$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
 
-			if ( 'success' == $paystack_response->data->status ) {
+			if ( 'success' == $payaza_response->data->status ) {
 
-				$merchant_note = sprintf( __( 'Refund for Order ID: #%1$s on %2$s', 'woo-paystack' ), $order_id, get_site_url() );
+				$merchant_note = sprintf( __( 'Refund for Order ID: #%1$s on %2$s', 'woo-payaza' ), $order_id, get_site_url() );
 
 				$body = array(
 					'transaction'   => $transaction_id,
@@ -1648,7 +1648,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 				);
 
 				$args['body'] = $body;
-				$refund_url   = 'https://api.paystack.co/refund';
+				$refund_url   = 'https://api.payaza.co/refund';
 
 				$refund_request = wp_remote_post( $refund_url, $args );
 
@@ -1659,7 +1659,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					if ( $refund_response->status ) {
 						$amount         = wc_price( $amount, array( 'currency' => $order_currency ) );
 						$refund_id      = $refund_response->data->id;
-						$refund_message = sprintf( __( 'Refunded %1$s. Refund ID: %2$s. Reason: %3$s', 'woo-paystack' ), $amount, $refund_id, $reason );
+						$refund_message = sprintf( __( 'Refunded %1$s. Refund ID: %2$s. Reason: %3$s', 'woo-payaza' ), $amount, $refund_id, $reason );
 						$order->add_order_note( $refund_message );
 
 						return true;
@@ -1672,7 +1672,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 					if ( isset( $refund_response->message ) ) {
 						return new WP_Error( 'error', $refund_response->message );
 					} else {
-						return new WP_Error( 'error', __( 'Can&#39;t process refund at the moment. Try again later.', 'woo-paystack' ) );
+						return new WP_Error( 'error', __( 'Can&#39;t process refund at the moment. Try again later.', 'woo-payaza' ) );
 					}
 				}
 
@@ -1705,9 +1705,9 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$payment_method = $order->get_payment_method();
 
-		$paystack_settings = get_option('woocommerce_' . $payment_method . '_settings');
+		$payaza_settings = get_option('woocommerce_' . $payment_method . '_settings');
 
-		if ( isset( $paystack_settings['autocomplete_order'] ) && 'yes' === $paystack_settings['autocomplete_order'] ) {
+		if ( isset( $payaza_settings['autocomplete_order'] ) && 'yes' === $payaza_settings['autocomplete_order'] ) {
 			$autocomplete_order = true;
 		}
 
@@ -1725,7 +1725,7 @@ class WC_Gateway_Paystack extends WC_Payment_Gateway_CC {
 
 		$payment_method = $order->get_payment_method();
 
-		if ( 'paystack' === $payment_method ) {
+		if ( 'payaza' === $payment_method ) {
 			return array();
 		}
 
