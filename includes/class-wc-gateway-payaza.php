@@ -180,7 +180,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->id                 = 'payaza';
 		$this->method_title       = __( 'Payaza', 'woo-payaza' );
-		$this->method_description = sprintf( __( 'Payaza provide merchants with the tools and services needed to accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Payaza account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-payaza' ), 'https://payaza.com', 'https://dashboard.payaza.com/#/settings/developer' );
+		$this->method_description = sprintf( __( 'Payaza checkout is the easiest way to collect payments from your customers anywhere in the world. On web and mobile.  <a href="%1$s" target="_blank">Sign up</a> for a Payaza account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-payaza' ), 'https://payaza.africa', 'https://payaza.africa/login' );
 		$this->has_fields         = true;
 
 		$this->payment_page = $this->get_option( 'payment_page' );
@@ -276,7 +276,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_payaza_supported_currencies', array( 'NGN', 'USD' ) ) ) ) {
 
-			$this->msg = sprintf( __( 'Payaza does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), KES (KSh), ZAR (R), or XOF (CFA) <a href="%s">here</a>', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
+			$this->msg = sprintf( __( 'Payaza does not support your store currency. Kindly set it to either NGN (&#8358), USD (&#36;),<a href="%s">here</a>', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
 
 			return false;
 
@@ -363,7 +363,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		</h2>
 
 		<h4>
-			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-payaza' ), 'https://dashboard.payaza.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></strong>
+			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-payaza' ), 'https://payaza.africa', WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></strong>
 		</h4>
 
 		<?php
@@ -421,15 +421,15 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 			),
 			'payment_page'                     => array(
 				'title'       => __( 'Payment Option', 'woo-payaza' ),
-				'type'        => 'select',
-				'description' => __( 'Popup shows the payment popup on the page while Redirect will redirect the customer to Payaza to make payment.', 'woo-payaza' ),
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''          => __( 'Select One', 'woo-payaza' ),
-					'inline'    => __( 'Popup', 'woo-payaza' ),
-					'redirect'  => __( 'Redirect', 'woo-payaza' ),
-				),
+				'label'		  => __('Enable Checkout'),
+				'type'        => 'checkbox',
+				'description' => __( 'Checkout will redirect the customer to Payaza to make payment.', 'woo-payaza' ),
+				'default'     => 'yes',
+
+				//'options'     => array(
+				//	''          => __( 'Select One', 'woo-payaza' ),
+				//	'redirect'  => __( 'Checkout', 'woo-payaza' ),
+				//),
 			),
 			'test_secret_key'                  => array(
 				'title'       => __( 'Test Secret Key', 'woo-payaza' ),
@@ -471,62 +471,18 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 				'description' => '',
 				'default'     => 'no',
 			),
-			'split_payment'                    => array(
-				'title'       => __( 'Split Payment', 'woo-payaza' ),
-				'label'       => __( 'Enable Split Payment', 'woo-payaza' ),
-				'type'        => 'checkbox',
-				'description' => '',
-				'class'       => 'woocommerce_payaza_split_payment',
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'subaccount_code'                  => array(
-				'title'       => __( 'Subaccount Code', 'woo-payaza' ),
-				'type'        => 'text',
-				'description' => __( 'Enter the subaccount code here.', 'woo-payaza' ),
-				'class'       => 'woocommerce_payaza_subaccount_code',
-				'default'     => '',
-			),
-			'split_payment_transaction_charge' => array(
-				'title'             => __( 'Split Payment Transaction Charge', 'woo-payaza' ),
-				'type'              => 'number',
-				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-payaza' ),
-				'class'             => __( 'woocommerce_payaza_split_payment_transaction_charge', 'woo-payaza' ),
-				'default'           => '',
-				'custom_attributes' => array(
-					'min'  => 1,
-					'step' => 0.1,
-				),
-				'desc_tip'          => false,
-			),
-			'split_payment_charge_account'     => array(
-				'title'       => __( 'Payaza Charges Bearer', 'woo-payaza' ),
-				'type'        => 'select',
-				'description' => __( 'Who bears Payaza charges?', 'woo-payaza' ),
-				'class'       => 'woocommerce_payaza_split_payment_charge_account',
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''           => __( 'Select One', 'woo-payaza' ),
-					'account'    => __( 'Account', 'woo-payaza' ),
-					'subaccount' => __( 'Subaccount', 'woo-payaza' ),
-				),
-			),
-			'custom_gateways'                  => array(
-				'title'       => __( 'Additional Payaza Gateways', 'woo-payaza' ),
-				'type'        => 'select',
-				'description' => __( 'Create additional custom Payaza based gateways. This allows you to create additional Payaza gateways using custom filters. You can create a gateway that accepts only verve cards, a gateway that accepts only bank payment, a gateway that accepts a specific bank issued cards.', 'woo-payaza' ),
-				'default'     => '',
-				'desc_tip'    => true,
-				'options'     => array(
-					''  => __( 'Select One', 'woo-payaza' ),
-					'1' => __( '1 gateway', 'woo-payaza' ),
-					'2' => __( '2 gateways', 'woo-payaza' ),
-					'3' => __( '3 gateways', 'woo-payaza' ),
-					'4' => __( '4 gateways', 'woo-payaza' ),
-					'5' => __( '5 gateways', 'woo-payaza' ),
-				),
-			),
+			
+			//'custom_gateways'                  => array(
+			//	'title'       => __( 'Additional Payaza Gateways', 'woo-payaza' ),
+			//	'type'        => 'select',
+			//	'description' => __( 'Create additional custom Payaza based gateways. This allows you to create additional Payaza gateways using custom filters. You can create a gateway that accepts only verve cards, a gateway that accepts only bank payment, a gateway that accepts a specific bank issued cards.', 'woo-payaza' ),
+			//	'default'     => '',
+			//	'desc_tip'    => true,
+			//	'options'     => array(
+			//		''  => __( 'Select One', 'woo-payaza' ),
+			//		'1' => __( '1 gateway', 'woo-payaza' ),
+			//	),
+			//),
 			'saved_cards'                      => array(
 				'title'       => __( 'Saved Cards', 'woo-payaza' ),
 				'label'       => __( 'Enable Payment via Saved Cards', 'woo-payaza' ),
@@ -664,9 +620,10 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'payaza', 'https://js.payaza.co/v1/inline.js', array( 'jquery' ), WC_PAYaza_VERSION, false );
+		wp_enqueue_script( 'payaza', 'https://checkout.payaza.africa/js/v1/bundle.js', array( 'jquery' ), WC_PAYAZA_VERSION, false );
+		//wp_enqueue_script( 'wc_payaza', plugins_url( 'assets/js/paza' . $suffix . '.js', WC_PAYaza_MAIN_FILE ), array( 'jquery', 'payaza' ), WC_PAYaza_VERSION, false );
 
-		wp_enqueue_script( 'wc_payaza', plugins_url( 'assets/js/payaza' . $suffix . '.js', WC_PAYaza_MAIN_FILE ), array( 'jquery', 'payaza' ), WC_PAYaza_VERSION, false );
+		wp_enqueue_script( 'wc_payaza', plugins_url( 'assets/js/payaza' . $suffix . '.js', WC_PAYAZA_MAIN_FILE ), array( 'jquery', 'payaza' ), WC_PAYAZA_VERSION, false );
 
 		$payaza_params = array(
 			'key' => $this->public_key,
@@ -795,10 +752,10 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		$payaza_admin_params = array(
-			'plugin_url' => WC_PAYaza_URL,
+			'plugin_url' => WC_PAYAZA_URL,
 		);
 
-		wp_enqueue_script( 'wc_payaza_admin', plugins_url( 'assets/js/payaza-admin' . $suffix . '.js', WC_PAYaza_MAIN_FILE ), array(), WC_PAYaza_VERSION, true );
+		wp_enqueue_script( 'wc_payaza_admin', plugins_url( 'assets/js/payaza-admin' . $suffix . '.js', WC_PAYAZA_MAIN_FILE ), array(), WC_PAYAZA_VERSION, true );
 
 		wp_localize_script( 'wc_payaza_admin', 'wc_payaza_admin_params', $payaza_admin_params );
 
@@ -907,7 +864,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		update_post_meta( $order_id, '_payaza_txn_ref', $txnref );
 
-		$payaza_url = 'https://api.payaza.co/transaction/initialize/';
+		$payaza_url = 'https://cards-live.78financials.com/card_charge/';
 
 		$headers = array(
 			'Authorization' => 'Bearer ' . $this->secret_key,
@@ -955,7 +912,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 			$order_amount = $order->get_total() * 100;
 
-			$payaza_url = 'https://api.payaza.co/transaction/charge_authorization';
+			$payaza_url = 'https://cards-live.78financials.com/card_charge/';
 
 			$headers = array(
 				'Content-Type'  => 'application/json',
@@ -1138,7 +1095,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		if ( $payaza_txn_ref ) {
 
-			$payaza_url = 'https://api.payaza.co/transaction/verify/' . $payaza_txn_ref;
+			$payaza_url = 'https://checkout.payaza.africa/transaction/verify/' . $payaza_txn_ref;
 
 			$headers = array(
 				'Authorization' => 'Bearer ' . $this->secret_key,
@@ -1589,98 +1546,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		return $custom_fields;
 	}
 
-	/**
-	 * Process a refund request from the Order details screen.
-	 *
-	 * @param int    $order_id WC Order ID.
-	 * @param null   $amount   WC Order Amount.
-	 * @param string $reason   Refund Reason
-	 *
-	 * @return bool|WP_Error
-	 */
-	public function process_refund( $order_id, $amount = null, $reason = '' ) {
-
-		if ( ! ( $this->public_key && $this->secret_key ) ) {
-			return false;
-		}
-
-		$order = wc_get_order( $order_id );
-
-		if ( ! $order ) {
-			return false;
-		}
-
-		if ( $this->is_wc_lt( '3.0' ) ) {
-			$order_currency = get_post_meta( $order_id, '_order_currency', true );
-			$transaction_id = get_post_meta( $order_id, '_transaction_id', true );
-		} else {
-			$order_currency = $order->get_currency();
-			$transaction_id = $order->get_transaction_id();
-		}
-
-		$verify_url = 'https://api.payaza.co/transaction/verify/' . $transaction_id;
-
-		$headers = array(
-			'Authorization' => 'Bearer ' . $this->secret_key,
-		);
-
-		$args = array(
-			'headers' => $headers,
-			'timeout' => 60,
-		);
-
-		$request = wp_remote_get( $verify_url, $args );
-
-		if ( ! is_wp_error( $request ) && 200 === wp_remote_retrieve_response_code( $request ) ) {
-
-			$payaza_response = json_decode( wp_remote_retrieve_body( $request ) );
-
-			if ( 'success' == $payaza_response->data->status ) {
-
-				$merchant_note = sprintf( __( 'Refund for Order ID: #%1$s on %2$s', 'woo-payaza' ), $order_id, get_site_url() );
-
-				$body = array(
-					'transaction'   => $transaction_id,
-					'amount'        => $amount * 100,
-					'currency'      => $order_currency,
-					'customer_note' => $reason,
-					'merchant_note' => $merchant_note,
-				);
-
-				$args['body'] = $body;
-				$refund_url   = 'https://api.payaza.co/refund';
-
-				$refund_request = wp_remote_post( $refund_url, $args );
-
-				if ( ! is_wp_error( $refund_request ) && 200 === wp_remote_retrieve_response_code( $refund_request ) ) {
-
-					$refund_response = json_decode( wp_remote_retrieve_body( $refund_request ) );
-
-					if ( $refund_response->status ) {
-						$amount         = wc_price( $amount, array( 'currency' => $order_currency ) );
-						$refund_id      = $refund_response->data->id;
-						$refund_message = sprintf( __( 'Refunded %1$s. Refund ID: %2$s. Reason: %3$s', 'woo-payaza' ), $amount, $refund_id, $reason );
-						$order->add_order_note( $refund_message );
-
-						return true;
-					}
-
-				} else {
-
-					$refund_response = json_decode( wp_remote_retrieve_body( $refund_request ) );
-
-					if ( isset( $refund_response->message ) ) {
-						return new WP_Error( 'error', $refund_response->message );
-					} else {
-						return new WP_Error( 'error', __( 'Can&#39;t process refund at the moment. Try again later.', 'woo-payaza' ) );
-					}
-				}
-
-			}
-
-		}
-
-	}
+	
 
 	/**
 	 * Checks if WC version is less than passed in version.

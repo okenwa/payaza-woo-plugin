@@ -42,7 +42,6 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 				'desc_tip'    => false,
 				'options'     => array(
 					''         => __( 'Select One', 'woo-payaza' ),
-					'inline'   => __( 'Popup', 'woo-payaza' ),
 					'redirect' => __( 'Redirect', 'woo-payaza' ),
 				),
 			),
@@ -62,48 +61,7 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 				'description' => '',
 				'default'     => 'no',
 			),
-			'split_payment'                    => array(
-				'title'       => __( 'Split Payment', 'woo-payaza' ),
-				'label'       => __( 'Enable Split Payment', 'woo-payaza' ),
-				'type'        => 'checkbox',
-				'description' => '',
-				'class'       => 'woocommerce_Payaza_split_payment',
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'subaccount_code'                  => array(
-				'title'       => __( 'Subaccount Code', 'woo-payaza' ),
-				'type'        => 'text',
-				'description' => __( 'Enter the subaccount code here.', 'woo-payaza' ),
-				'class'       => __( 'woocommerce_Payaza_subaccount_code', 'woo-payaza' ),
-				'default'     => '',
-			),
-			'split_payment_transaction_charge' => array(
-				'title'             => __( 'Split Payment Transaction Charge', 'woo-payaza' ),
-				'type'              => 'number',
-				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-payaza' ),
-				'class'             => 'woocommerce_Payaza_split_payment_transaction_charge',
-				'default'           => '',
-				'custom_attributes' => array(
-					'min'  => 1,
-					'step' => 0.1,
-				),
-				'desc_tip'          => false,
-			),
-			'split_payment_charge_account'     => array(
-				'title'       => __( 'Payaza Charges Bearer', 'woo-payaza' ),
-				'type'        => 'select',
-				'description' => __( 'Who bears Payaza charges?', 'woo-payaza' ),
-				'class'       => 'woocommerce_Payaza_split_payment_charge_account',
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''           => __( 'Select One', 'woo-payaza' ),
-					'account'    => __( 'Account', 'woo-payaza' ),
-					'subaccount' => __( 'Subaccount', 'woo-payaza' ),
-				),
-			),
-			'payment_channels'                 => array(
+				'payment_channels'                 => array(
 				'title'             => __( 'Payment Channels', 'woo-payaza' ),
 				'type'              => 'multiselect',
 				'class'             => 'wc-enhanced-select wc-payaza-payment-channels',
@@ -255,7 +213,7 @@ class WC_Gateway_Custom_Payaza extends WC_Gateway_Payaza_Subscriptions {
 		<h4>
 			<?php
 			/* translators: link to Payaza developers settings page */
-			printf( __( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-payaza' ), 'https://dashboard.payaza.co/#/settings/developer' );
+			printf( __( 'Important: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%s" target="_blank" rel="noopener noreferrer">here</a> to the URL below', 'woo-payaza' ), 'https://payaza.africa' );
 			?>
 		</h4>
 

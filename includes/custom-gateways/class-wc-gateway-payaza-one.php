@@ -93,12 +93,8 @@ class WC_Gateway_Payaza_One extends WC_Gateway_Custom_Payaza {
 
 		$this->saved_cards = $this->payaza_settings['saved_cards'] === 'yes' ? true : false;
 
-		$this->split_payment              = $this->get_option( 'split_payment' ) === 'yes' ? true : false;
 		$this->remove_cancel_order_button = $this->get_option( 'remove_cancel_order_button' ) === 'yes' ? true : false;
-		$this->subaccount_code            = $this->get_option( 'subaccount_code' );
-		$this->charges_account            = $this->get_option( 'split_payment_charge_account' );
-		$this->transaction_charges        = $this->get_option( 'split_payment_transaction_charge' );
-
+		
 		$this->payment_icons = $this->get_option( 'payment_icons' );
 
 		$this->custom_metadata = $this->get_option( 'custom_metadata' ) === 'yes' ? true : false;

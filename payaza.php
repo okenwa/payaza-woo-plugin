@@ -4,7 +4,7 @@
  * Plugin URI: https://payaza.africa
  * Description: WooCommerce payment gateway for payaza
  * Version: 1.0.0
- * Author: Okenwa Ikwan kevin
+ * Author: Payaza 
  * Author URI: https://github.com/okenwa
 
  */
@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_payaza_MAIN_FILE', __FILE__ );
-define( 'WC_payaza_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
+define( 'WC_PAYAZA_MAIN_FILE', __FILE__ );
+define( 'WC_PAYAZA_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_payaza_VERSION', '1.0.0' );
+define( 'WC_PAYAZA_VERSION', '1.0.0' );
 
 /**
  * Initialize payaza gateway.
@@ -36,9 +36,9 @@ function tbz_wc_payaza_init() {
 
 	require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-payaza-subscriptions.php';
 
-	require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-custom-payaza.php';
+	//require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-custom-payaza.php';
 
-	require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-one.php';
+	//require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-one.php';
 
 
 	add_filter( 'woocommerce_payment_gateways', 'tbz_wc_add_payaza_gateway', 99 );
@@ -75,9 +75,9 @@ function tbz_woo_payaza_plugin_action_links( $links ) {
 function tbz_wc_add_payaza_gateway( $methods ) {
 
 	if ( class_exists( 'WC_Subscriptions_Order' ) && class_exists( 'WC_Payment_Gateway_CC' ) ) {
-		$methods[] = 'WC_Gateway_payaza_Subscriptions';
+		$methods[] = 'WC_Gateway_Payaza_Subscriptions';
 	} else {
-		$methods[] = 'WC_Gateway_payaza';
+		$methods[] = 'WC_Gateway_Payaza';
 	}
 
 	if ( 'NGN' === get_woocommerce_currency() ) {
@@ -85,7 +85,7 @@ function tbz_wc_add_payaza_gateway( $methods ) {
 		$settings        = get_option( 'woocommerce_payaza_settings', '' );
 		$custom_gateways = isset( $settings['custom_gateways'] ) ? $settings['custom_gateways'] : '';
 
-		$methods[] = 'WC_Gateway_payaza_One';
+		$methods[] = 'WC_Gateway_Payaza_One';
 	}
 
 	return $methods;

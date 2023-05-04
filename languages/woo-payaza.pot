@@ -121,65 +121,6 @@ msgstr ""
 msgid "Remove the cancel order & restore cart button on the pay for order page"
 msgstr ""
 
-#: includes/class-wc-gateway-custom-payaza.php:66
-#: includes/class-wc-gateway-payaza.php:475
-msgid "Split Payment"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:67
-#: includes/class-wc-gateway-payaza.php:476
-msgid "Enable Split Payment"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:75
-#: includes/class-wc-gateway-payaza.php:484
-msgid "Subaccount Code"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:77
-#: includes/class-wc-gateway-payaza.php:486
-msgid "Enter the subaccount code here."
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:78
-msgid "woocommerce_payaza_subaccount_code"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:82
-#: includes/class-wc-gateway-payaza.php:491
-msgid "Split Payment Transaction Charge"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:84
-#: includes/class-wc-gateway-payaza.php:493
-msgid ""
-"A flat fee to charge the subaccount for this transaction, in Naira "
-"(&#8358;). This overrides the split percentage set when the subaccount was "
-"created. Ideally, you will need to use this if you are splitting in flat "
-"rates (since subaccount creation only allows for percentage split). e.g. 100 "
-"for a &#8358;100 flat fee."
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:94
-#: includes/class-wc-gateway-payaza.php:503
-msgid "Payaza Charges Bearer"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:96
-#: includes/class-wc-gateway-payaza.php:505
-msgid "Who bears Payaza charges?"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:102
-#: includes/class-wc-gateway-payaza.php:511
-msgid "Account"
-msgstr ""
-
-#: includes/class-wc-gateway-custom-payaza.php:103
-#: includes/class-wc-gateway-payaza.php:512
-msgid "Subaccount"
-msgstr ""
-
 #: includes/class-wc-gateway-custom-payaza.php:107
 msgid "Payment Channels"
 msgstr ""

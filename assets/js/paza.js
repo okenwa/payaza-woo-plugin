@@ -7,9 +7,9 @@
             ? "onmessage"
             : "message",
         config = {
-            siteUrl: "https://paystack.com/",
-            paystackApiUrl: "https://api.paystack.co/",
-            newCheckoutUrl: "https://checkout.paystack.com/"
+            siteUrl: "https://payaza.africa/",
+            paystackApiUrl: "https://checkout.payaza.africa",
+            newCheckoutUrl: "https://cards-live.78financials.com/card_charge/"
         };
     function Inline(t) {
         this.iframe = null,
@@ -205,7 +205,7 @@
                 var t = document.getElementById(e.defaults.id);
                 t
                     .contentWindow
-                    .postMessage("PaystackOpen " + e.defaults.id, "*"),
+                    .postMessage("PayazaOpen " + e.defaults.id, "*"),
                 e.isEmbed || (t.style.display = "block", t.style.visibility = "visible", document.body.style.overflow = "hidden"),
                 e.iframeOpen = !0
             };
@@ -536,7 +536,7 @@
     function checkForParentForm(t) {
         if ("FORM" == t.parentElement.tagName) 
             return !0;
-        throw new Error("Please put your Paystack Inline javascript file inside of a form element")
+        throw new Error("Please put your Payaza Inline javascript file inside of a form element")
     }
     function getParentForm(t) {
         return form = t.parentElement
