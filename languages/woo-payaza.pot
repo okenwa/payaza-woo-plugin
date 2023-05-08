@@ -608,7 +608,7 @@ msgid "Enable Payaza as a payment option on the checkout page."
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:404
-msgid "Debit/Credit Cards"
+msgid "Payaza Checkout"
 msgstr ""
 
 #: includes/class-wc-gateway-payaza.php:411

@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: payaza WooCommerce Plugin
+ * Plugin Name: Payaza WooCommerce Plugin
  * Plugin URI: https://payaza.africa
  * Description: WooCommerce payment gateway for payaza
- * Version: 1.0.0
+ * Version: 0.1.0
  * Author: Payaza 
- * Author URI: https://github.com/okenwa
+ * Author URI: https://payaza.africa
 
  */
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_PAYAZA_MAIN_FILE', __FILE__ );
 define( 'WC_PAYAZA_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_PAYAZA_VERSION', '1.0.0' );
+define( 'WC_PAYAZA_VERSION', '0.1.0' );
 
 /**
  * Initialize payaza gateway.
@@ -33,12 +33,6 @@ function tbz_wc_payaza_init() {
 	add_action( 'admin_notices', 'tbz_wc_payaza_testmode_notice' );
 
 	require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-payaza.php';
-
-	require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-payaza-subscriptions.php';
-
-	//require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-custom-payaza.php';
-
-	//require_once dirname( __FILE__ ) . '/includes/custom-gateways/class-wc-gateway-payaza-one.php';
 
 
 	add_filter( 'woocommerce_payment_gateways', 'tbz_wc_add_payaza_gateway', 99 );
@@ -74,9 +68,7 @@ function tbz_woo_payaza_plugin_action_links( $links ) {
  */
 function tbz_wc_add_payaza_gateway( $methods ) {
 
-	if ( class_exists( 'WC_Subscriptions_Order' ) && class_exists( 'WC_Payment_Gateway_CC' ) ) {
-		$methods[] = 'WC_Gateway_Payaza_Subscriptions';
-	} else {
+	if ( class_exists( 'WC_Payment_Gateway_CC' ) ) {
 		$methods[] = 'WC_Gateway_Payaza';
 	}
 
@@ -85,7 +77,7 @@ function tbz_wc_add_payaza_gateway( $methods ) {
 		$settings        = get_option( 'woocommerce_payaza_settings', '' );
 		$custom_gateways = isset( $settings['custom_gateways'] ) ? $settings['custom_gateways'] : '';
 
-		$methods[] = 'WC_Gateway_Payaza_One';
+		//$methods[] = 'WC_Gateway_Payaza_One';
 	}
 
 	return $methods;
@@ -96,7 +88,7 @@ function tbz_wc_add_payaza_gateway( $methods ) {
  * Display a notice if WooCommerce is not installed
  */
 function tbz_wc_payaza_wc_missing_notice() {
-	echo '<div class="error"><p><strong>' . sprintf( __( 'payaza requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-payaza' ), '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) . '" class="thickbox open-plugin-details-modal">here</a>' ) . '</strong></p></div>';
+	echo '<div class="error"><p><strong>' . sprintf( __( 'Payaza requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-payaza' ), '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) . '" class="thickbox open-plugin-details-modal">here</a>' ) . '</strong></p></div>';
 }
 
 /**
