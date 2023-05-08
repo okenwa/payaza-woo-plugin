@@ -2,11 +2,17 @@
 wordpress plugin for WooCommerce Payaza gateway
 
 Tags: payaza, woocommerce, payment gateway,usd, naira
+
 Author: Okenwa Ikwan kevin for Payaza
+
 Requires at least: 4.7
+
 Tested up to: 5.6
+
 Stable tag: 5.7
+
 Requires PHP: 5.6
+
 License: GPLv2 or later
 
 
