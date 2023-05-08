@@ -244,7 +244,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		?>
 		</h2>
 		<h4>
-			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Paystack_Webhook' ) ); ?></strong>
+			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></strong>
 		</h4>
 		<?php
 
@@ -332,78 +332,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 				'description' => '',
 				'default'     => 'no',
 			),
-			'custom_metadata'                  => array(
-				'title'       => __( 'Custom Metadata', 'woo-paystack' ),
-				'label'       => __( 'Enable Custom Metadata', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-metadata',
-				'description' => __( 'If enabled, you will be able to send more information about the order to Paystack.', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_order_id'                    => array(
-				'title'       => __( 'Order ID', 'woo-paystack' ),
-				'label'       => __( 'Send Order ID', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-order-id',
-				'description' => __( 'If checked, the Order ID will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_name'                        => array(
-				'title'       => __( 'Customer Name', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Name', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-name',
-				'description' => __( 'If checked, the customer full name will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_email'                       => array(
-				'title'       => __( 'Customer Email', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Email', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-email',
-				'description' => __( 'If checked, the customer email address will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_phone'                       => array(
-				'title'       => __( 'Customer Phone', 'woo-paystack' ),
-				'label'       => __( 'Send Customer Phone', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-phone',
-				'description' => __( 'If checked, the customer phone will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_billing_address'             => array(
-				'title'       => __( 'Order Billing Address', 'woo-paystack' ),
-				'label'       => __( 'Send Order Billing Address', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-billing-address',
-				'description' => __( 'If checked, the order billing address will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_shipping_address'            => array(
-				'title'       => __( 'Order Shipping Address', 'woo-paystack' ),
-				'label'       => __( 'Send Order Shipping Address', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-shipping-address',
-				'description' => __( 'If checked, the order shipping address will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'meta_products'                    => array(
-				'title'       => __( 'Product(s) Purchased', 'woo-paystack' ),
-				'label'       => __( 'Send Product(s) Purchased', 'woo-paystack' ),
-				'type'        => 'checkbox',
-				'class'       => 'wc-paystack-meta-products',
-				'description' => __( 'If checked, the product(s) purchased will be sent to Paystack', 'woo-paystack' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
+			
 		
 		);
 
@@ -473,95 +402,29 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		if ( is_checkout_pay_page() && get_query_var( 'order-pay' ) ) {
 
 			$email         = $order->get_billing_email();
+			$first_name    = $order->get_billing_first_name();
+			$last_name 	   = $order->get_billing_last_name();
+			$phone_number  = $order->get_billing_phone();
 			$amount        = $order->get_total() * 100;
 			$txnref        = $order_id . '_' . time();
 			$the_order_id  = $order->get_id();
 			$the_order_key = $order->get_order_key();
 			$currency      = $order->get_currency();
+
 			
 
 			if ( $the_order_id == $order_id && $the_order_key == $order_key ) {
 
 				$payaza_params['email']    = $email;
+				$payaza_params['first_name'] = $first_name;
+				$payaza_params['last_name'] = $last_name;
+				$payaza_params['phone_number'] = $phone_number;
 				$payaza_params['amount']   = $amount;
 				$payaza_params['txnref']   = $txnref;
 				$payaza_params['currency'] = $currency;
 
-			}
 
-			
 
-			if ( $this->custom_metadata ) {
-
-				if ( $this->meta_order_id ) {
-
-					$payaza_params['meta_order_id'] = $order_id;
-
-				}
-
-				if ( $this->meta_name ) {
-
-					$payaza_params['meta_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-
-				}
-
-				if ( $this->meta_email ) {
-
-					$payaza_params['meta_email'] = $email;
-
-				}
-
-				if ( $this->meta_phone ) {
-
-					$payaza_params['meta_phone'] = $order->get_billing_phone();
-
-				}
-
-				if ( $this->meta_products ) {
-
-					$line_items = $order->get_items();
-
-					$products = '';
-
-					foreach ( $line_items as $item_id => $item ) {
-						$name      = $item['name'];
-						$quantity  = $item['qty'];
-						$products .= $name . ' (Qty: ' . $quantity . ')';
-						$products .= ' | ';
-					}
-
-					$products = rtrim( $products, ' | ' );
-
-					$payaza_params['meta_products'] = $products;
-
-				}
-
-				if ( $this->meta_billing_address ) {
-
-					$billing_address = $order->get_formatted_billing_address();
-					$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
-
-					$payaza_params['meta_billing_address'] = $billing_address;
-
-				}
-
-				if ( $this->meta_shipping_address ) {
-
-					$shipping_address = $order->get_formatted_shipping_address();
-					$shipping_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $shipping_address ) );
-
-					if ( empty( $shipping_address ) ) {
-
-						$billing_address = $order->get_formatted_billing_address();
-						$billing_address = esc_html( preg_replace( '#<br\s*/?>#i', ', ', $billing_address ) );
-
-						$shipping_address = $billing_address;
-
-					}
-
-					$payaza_params['meta_shipping_address'] = $shipping_address;
-
-				}
 			}
 
 			update_post_meta( $order_id, '_payaza_txn_ref', $txnref );
@@ -671,12 +534,14 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 	public function receipt_page( $order_id ) {
 
 		$order = wc_get_order( $order_id );
+		$email  = $order->get_billing_email();
 
 		echo '<div id="wc-payaza-form">';
 
 		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ) . '</p>';
 
-		echo '<div id="payaza_form"><form id="order_review" method="post" action="' . WC()->api_request_url( 'WC_Gateway_Payaza' ) . '"></form><button class="button" id="payaza-payment-button">' . __( 'Pay Now', 'woo-payaza' ) . '</button>';
+		
+		echo '<div id="payaza_form"><form id="order_review" method="post" action=""></form><button class="button" id="payaza-payment-button">' . __( 'Pay Now', 'woo-payaza' ) . '</button>';
 
 		if ( ! $this->remove_cancel_order_button ) {
 			echo '  <a class="button cancel" id="payaza-cancel-payment-button" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woo-payaza' ) . '</a></div>';
