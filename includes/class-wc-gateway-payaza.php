@@ -244,7 +244,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		?>
 		</h2>
 		<h4>
-			<strong><?php printf( __( 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: red"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Tbz_WC_Payaza_Webhook' ) ); ?></strong>
+			<strong><?php printf( __( 'Set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: green"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Paz_WC_Payaza_Webhook' ) ); ?></strong>
 		</h4>
 		<?php
 
