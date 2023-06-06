@@ -1,11 +1,16 @@
 <?php
 /**
- * Plugin Name: Payaza WooCommerce Plugin
+ * Plugin Name: Payaza
  * Plugin URI: https://payaza.africa
  * Description: WooCommerce payment gateway for payaza
  * Version: 0.1.0
  * Author: Payaza 
- * Author URI: https://payaza.africa
+ * License: GPL v2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * WC requires at least: 6.1
+ * WC tested up to: 6.9
+ * Text Domain: woo-payaza
+ * Domain Path: /languages
 
  */
 
