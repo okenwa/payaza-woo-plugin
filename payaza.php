@@ -5,7 +5,7 @@
  * Description: WooCommerce payment gateway for payaza
  * Version: 0.1.0
  * Author: Payaza 
- * License: GPL v2 or later
+ * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * WC requires at least: 6.1
  * WC tested up to: 6.9

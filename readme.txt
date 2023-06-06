@@ -1,6 +1,5 @@
-# payaza
-wordpress plugin for WooCommerce Payaza gateway
-
+=== Payaza ===
+Contributors: okenwa500
 Tags: payaza, woocommerce, payment gateway,usd, naira
 
 Author: Okenwa Ikwan kevin for Payaza
@@ -11,9 +10,9 @@ Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+wordpress plugin for WooCommerce Payaza gateway
 
 Payaza’s Woo-commerce checkout makes it easy for you to start accepting payments from your customers when they visit your applications. The checkout SDK can be integrated in very easy steps, making it the easiest way to start accepting payment.
-
 
 == Description ==
 
