@@ -92,9 +92,8 @@ function paz_wc_add_payaza_gateway( $methods ) {
  * Display a notice if WooCommerce is not installed
  */
 function paz_wc_payaza_wc_missing_notice() {
-	echo '<div class="error"><p><strong>' . sprintf( __( 'Payaza requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-payaza' ), '<a href="' . admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) . '" class="thickbox open-plugin-details-modal">here</a>' ) . '</strong></p></div>';
+    echo '<div class="error"><p><strong>'. esc_html( sprintf( __( 'Payaza requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'woo-payaza' ), '<a href="'. esc_url( admin_url( 'plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539' ) ). '" class="thickbox open-plugin-details-modal">here</a>' ) ). '</strong></p></div>';
 }
-
 /**
  * Display the test mode notice.
  **/
@@ -109,6 +108,6 @@ function paz_wc_payaza_testmode_notice() {
 
 	if ( 'yes' === $test_mode ) {
 		/* translators: 1. payaza settings page URL link. */
-		echo '<div class="error"><p>' . sprintf( __( 'payaza test mode is still enabled, Click <strong><a href="%s">here</a></strong> to disable it when you want to start accepting live payment on your site.', 'woo-payaza' ), esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) ) . '</p></div>';
+		echo '<div class="error"><p>' . esc_html( sprintf( __( 'payaza test mode is still enabled, Click <strong><a href="%s">here</a></strong> to disable it when you want to start accepting live payment on your site.', 'woo-payaza' ), esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) ) ). '</p></div>';
 	}
 }

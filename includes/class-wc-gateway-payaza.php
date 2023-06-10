@@ -200,7 +200,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		// Check required fields.
 		if ( ! ( $this->public_key && $this->secret_key ) ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Please enter your Payaza merchant details <a href="%s">here</a> to be able to use the Payaza WooCommerce plugin.', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) . '</p></div>';
+			echo '<div class="error"><p>' . esc_html( sprintf( __( 'Please enter your Payaza merchant details <a href="%s">here</a> to be able to use the Payaza WooCommerce plugin.', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) ) . '</p></div>';
 			return;
 		}
 
@@ -244,7 +244,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		?>
 		</h2>
 		<h4>
-			<strong><?php printf( __( 'Set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: green"><pre><code>%2$s</code></pre></span>', 'woo-paystack' ), 'https://dashboard.paystack.co/#/settings/developer', WC()->api_request_url( 'Paz_WC_Payaza_Webhook' ) ); ?></strong>
+		<strong><?php printf( esc_html__( 'Set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: green"><pre><code>%2$s</code></pre></span>', 'woo-payaza' ), esc_url( 'https://payaza.africa/settings' ), esc_html( WC()->api_request_url( 'Paz_WC_Payaza_Webhook' ) ) );?></strong>
 		</h4>
 		<?php
 
