@@ -166,9 +166,9 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 	 */
 	public function is_valid_for_use() {
 
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_payaza_supported_currencies', array( 'NGN', 'USD', 'ZAR', 'GHS', 'KES', 'XOF' ) ) ) ) {
+		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_payaza_supported_currencies', array( 'NGN', 'USD' ) ) ) ) {
 
-			$this->msg = sprintf( __( 'Payaza does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), KES (KSh), ZAR (R), or XOF (CFA) <a href="%s">here</a>', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
+			$this->msg = sprintf( __( 'Payaza does not support your store currency. Kindly set it to either NGN (&#8358), USD (&#36;) <a href="%s">here</a>', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=general' ) );
 
 			return false;
 
@@ -200,7 +200,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		// Check required fields.
 		if ( ! ( $this->public_key && $this->secret_key ) ) {
-			echo '<div class="error"><p>' . esc_html( sprintf( __( 'Please enter your Payaza merchant details <a href="%s">here</a> to be able to use the Payaza WooCommerce plugin.', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ) ) . '</p></div>';
+			echo '<div class="error"><p>' .  sprintf ( __( 'Please enter your Payaza merchant details <a href="%s">here</a> to be able to use the Payaza WooCommerce plugin.', 'woo-payaza' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payaza' ) ). '</p></div>';
 			return;
 		}
 
@@ -244,19 +244,27 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		?>
 		</h2>
 		<h4>
-		<strong><?php printf( esc_html__( 'Set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: green"><pre><code>%2$s</code></pre></span>', 'woo-payaza' ), esc_url( 'https://payaza.africa/settings' ), esc_html( WC()->api_request_url( 'Paz_WC_Payaza_Webhook' ) ) );?></strong>
+		
+		<strong><?php printf(
+    __(
+        'Set your webhook URL <a href="%1$s" target="_blank" rel="noopener noreferrer">here</a> to the URL below<span style="color: green"><pre><code>%2$s</code></pre></span>',
+        'woo-payaza'
+    ),
+    esc_url( 'https://payaza.africa/settings' ),
+    esc_html( WC()->api_request_url( 'Paz_WC_Payaza_Webhook' ) )
+);?></strong>
 		</h4>
 		<?php
 
 		if ( $this->is_valid_for_use() ) {
 
-			echo '<table class="form-table">';
+			echo '<table class="form-table">'; 
 			$this->generate_settings_html();
 			echo '</table>';
 
 		} else {
 			?>
-			<div class="inline error"><p><strong><?php _e( 'Payaza Payment Gateway Disabled', 'woo-payaza' ); ?></strong>: <?php echo $this->msg; ?></p></div>
+			<div class="inline error"><p><strong><?php printf( esc_html__( 'Payaza Payment Gateway Disabled', 'woo-payaza' ), esc_html( $this->msg ) );?></strong></p></div>
 
 			<?php
 		}
@@ -538,10 +546,18 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		echo '<div id="wc-payaza-form">';
 
-		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ) . '</p>';
+		
+		echo '<p>'. htmlspecialchars__( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ). '</p>';
 
 		
-		echo '<div id="payaza_form"><form id="order_review" method="post" action=""></form><button class="button" id="payaza-payment-button">' . __( 'Pay Now', 'woo-payaza' ) . '</button>';
+	
+
+		echo '<div id="payaza_form">
+  <form id="order_review" method="post" action="'. esc_url( wc_get_checkout_url() ). '">
+    <input type="hidden" name="payaza_payment_button" value="1">
+  </form>
+  <button class="button" id="payaza-payment-button">'. __( 'Pay Now', 'woo-payaza' ). '</button>';
+
 
 		if ( ! $this->remove_cancel_order_button ) {
 			echo '  <a class="button cancel" id="payaza-cancel-payment-button" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woo-payaza' ) . '</a></div>';
