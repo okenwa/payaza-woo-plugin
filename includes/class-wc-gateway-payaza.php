@@ -134,7 +134,12 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 
 		$this->remove_cancel_order_button = $this->get_option( 'remove_cancel_order_button' ) === 'yes' ? true : false;
 		
-
+		$this->form_fields = array_merge( $this->form_fields, array(
+            'nonce' => array(
+                'type' => 'nonce',
+                'class' => array( 'payaza-gateway-nonce' ),
+            ),
+        ) );
 		$this->public_key = $this->testmode ? $this->test_public_key : $this->live_public_key;
 		$this->secret_key = $this->testmode ? $this->test_secret_key : $this->live_secret_key;
 
@@ -357,8 +362,11 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 	 */
 	public function payment_fields() {
 
+		wp_nonce_field( 'wc_payaza_nonce', 'wc_payaza_nonce' );
+
+
 		if ( $this->description ) {
-			echo wpautop( wptexturize( $this->description ) );
+			echo wpautop( wptexturize( esc_html( $this->description ) ));
 		}
 
 		if ( ! is_ssl() ) {
@@ -386,7 +394,8 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		$order_key = urldecode( $_GET['key'] );
+		//$order_key = urldecode( $_GET['key'] );
+		$order_key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		$order_id  = absint( get_query_var( 'order-pay' ) );
 
 		$order = wc_get_order( $order_id );
@@ -473,7 +482,12 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 	 */
 	public function process_payment( $order_id ) {
 
-		if ( 'redirect' === $this->payment_page ) {
+		if (! wp_verify_nonce( $_POST['wc_payaza_nonce'], 'wc_payaza_nonce' ) ) {
+            wc_add_notice( 'Invalid nonce.', 'error' );
+            return;
+        }
+
+		elseif ( 'redirect' === $this->payment_page ) {
 
 			return $this->process_redirect_payment_option( $order_id );
 
@@ -547,7 +561,7 @@ class WC_Gateway_Payaza extends WC_Payment_Gateway_CC {
 		echo '<div id="wc-payaza-form">';
 
 		
-		echo '<p>'. htmlspecialchars__( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ). '</p>';
+		echo '<p>'. esc_html_e( 'Thank you for your order, please click the button below to pay with Payaza.', 'woo-payaza' ). '</p>';
 
 		
 	
